@@ -1,0 +1,17 @@
+{
+  "name": "Solfeo de Bolsillo",
+  "short_name": "Solfeo",
+  "description": "Aprende a leer notas de piano en clave de sol y de fa.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#131B33",
+  "theme_color": "#171B26",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
