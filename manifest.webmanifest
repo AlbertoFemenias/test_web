@@ -1,7 +1,7 @@
 {
-  "name": "Solfeo de Bolsillo",
-  "short_name": "Solfeo",
-  "description": "Aprende a leer notas de piano en clave de sol y de fa.",
+  "name": "Clave Maestra",
+  "short_name": "Clave Maestra",
+  "description": "Aprende solfeo y piano jugando: mapa, retos, partituras y teoría.",
   "lang": "es",
   "start_url": "./",
   "scope": "./",

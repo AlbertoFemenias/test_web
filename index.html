@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Solfeo de Bolsillo</title>
-<meta name="description" content="Aprende a leer notas de piano en clave de sol y clave de fa: historia, arcade y teoría.">
+<title>Clave Maestra</title>
+<meta name="description" content="Clave Maestra: aprende solfeo y piano jugando. Mapa de fantasía, retos, partituras y teoría en español.">
 <meta name="theme-color" content="#131B33">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
@@ -13,7 +13,7 @@
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}html,body{margin:0}</style>
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Solfeo">
+<meta name="apple-mobile-web-app-title" content="Clave Maestra">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:ital,wght@0,600;0,700;0,800;0,900;1,700&display=swap">
@@ -158,9 +158,10 @@ b{font-weight:800}
 .range-count{margin:0;text-align:center;font-weight:900;color:var(--gold)}
 
 /* navegación inferior */
-.nav{position:absolute;left:0;right:0;bottom:0;z-index:8;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));background:rgba(19,27,51,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:2px solid var(--night-line)}
+.nav{position:absolute;left:0;right:0;bottom:0;z-index:8;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));background:rgba(19,27,51,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:2px solid var(--night-line)}
 .nav button{border:0;background:transparent;border-radius:14px;padding:6px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--on-night-2);font-size:11px;font-weight:900;letter-spacing:.04em;text-transform:uppercase}
-.nav button svg{width:26px;height:26px}
+.nav button svg{width:24px;height:24px}
+.nav button{font-size:10px}
 .nav button[aria-current="page"]{color:var(--gold);background:var(--night-3);box-shadow:inset 0 -3px 0 var(--gold)}
 body:not([data-screen="home"]) .nav{display:none}
 
@@ -244,9 +245,16 @@ body:not([data-screen="home"]) .nav{display:none}
 .acc button{border:0;background:transparent;border-radius:11px;padding:8px 0;font-size:14px;font-weight:900;color:var(--on-night-2);display:flex;align-items:center;justify-content:center;gap:6px}
 .acc button .g{font-size:20px;line-height:1}
 .acc button[aria-pressed="true"]{background:var(--sky);color:#fff;box-shadow:0 3px 0 var(--sky-dk)}
-.notes{display:grid;grid-template-columns:repeat(8,1fr);gap:9px 8px}
-.notes button{grid-column:span 2;background:var(--parch);color:var(--ink);border:0;border-radius:16px;height:60px;font-family:var(--display);font-size:24px;box-shadow:0 6px 0 var(--parch-shadow);transition:transform .07s, box-shadow .07s}
-.notes button:nth-child(5){grid-column:2 / span 2}
+.notes{display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:auto auto;gap:7px 6px}
+.notes button:nth-child(1){grid-area:1/1/2/3}
+.notes button:nth-child(2){grid-area:2/2/3/4}
+.notes button:nth-child(3){grid-area:1/3/2/5}
+.notes button:nth-child(4){grid-area:2/4/3/6}
+.notes button:nth-child(5){grid-area:1/5/2/7}
+.notes button:nth-child(6){grid-area:2/6/3/8}
+.notes button:nth-child(7){grid-area:1/7/2/9}
+.notes button{background:var(--parch);color:var(--ink);border:0;border-radius:14px;height:56px;font-family:var(--display);font-size:clamp(16px,5vw,24px);box-shadow:0 6px 0 var(--parch-shadow);transition:transform .07s, box-shadow .07s}
+
 .notes button:active{transform:translateY(5px);box-shadow:0 1px 0 var(--parch-shadow)}
 .notes button.right{background:var(--mint);color:#fff;box-shadow:0 6px 0 var(--mint-dk);text-shadow:0 2px 0 rgba(0,0,0,.15)}
 .notes button.wrong{background:var(--coral);color:#fff;box-shadow:0 6px 0 var(--coral-dk)}
@@ -439,6 +447,72 @@ body:not([data-screen="home"]) .nav{display:none}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
+
+/* ---------- Teclado de piano ---------- */
+.kb{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;background:var(--night-2);border-radius:16px;padding:8px;box-shadow:inset 0 0 0 2px var(--night-line)}
+.kb-inner{position:relative;display:grid;grid-template-columns:repeat(var(--kn), minmax(42px, 1fr));height:120px;min-width:100%}
+.kb.kb-wide .kb-inner{grid-template-columns:repeat(var(--kn), 42px)}
+.kb-w{position:relative;border:2px solid #2A2140;border-right-width:1px;border-radius:0 0 8px 8px;background:linear-gradient(#FFFDF6, #F3E9D2);box-shadow:0 5px 0 #C9B68E;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font:800 11px var(--body);color:var(--ink-2)}
+.kb-w.kb-c{background:linear-gradient(#FFF6DF,#F3E2BA)}
+.kb-w.down,.kb-w:active{transform:translateY(3px);box-shadow:0 2px 0 #C9B68E}
+.kb-b{position:absolute;top:0;left:calc((var(--i) + 1) * (100% / var(--kn)));width:calc(100% / var(--kn) * .62);height:62%;transform:translateX(-50%);border:2px solid #14101F;border-radius:0 0 6px 6px;background:linear-gradient(#3A3152,#1B1630);box-shadow:0 4px 0 #0C0916;z-index:2}
+.kb-b.down,.kb-b:active{transform:translateX(-50%) translateY(3px);box-shadow:0 1px 0 #0C0916}
+.kb-w.ok,.kb-b.ok{background:var(--mint);box-shadow:0 5px 0 var(--mint-dk)}
+.kb-w.bad,.kb-b.bad{background:var(--coral);box-shadow:0 5px 0 var(--coral-dk)}
+.kb-w.right-key,.kb-b.right-key{background:var(--gold);box-shadow:0 5px 0 var(--gold-dk)}
+.fing{font-weight:900}
+.fing.der{color:var(--orange-dk)} .fing.izq{color:var(--sky-dk)}
+
+/* ---------- Bienvenida y fin de capítulo ---------- */
+#welcome{justify-content:center;gap:16px;padding-block:20px}
+.wc-logo{text-align:center}
+.logo.big{font-size:40px;line-height:1.05}
+.wc-card{background:var(--parch);color:var(--ink);border-radius:24px;padding:20px 18px;box-shadow:0 7px 0 var(--parch-shadow), 0 20px 40px rgba(0,0,0,.4);display:flex;flex-direction:column;gap:12px;text-align:center}
+.wc-card h2{margin:0;font-family:var(--display);font-weight:400;font-size:26px;line-height:1.1;text-wrap:balance}
+.wc-card p{margin:0;line-height:1.55}
+.wc-card .hint{color:var(--ink-2)}
+.wc-art svg{display:block;width:100%;max-width:280px;margin:0 auto;height:auto}
+.wc-dots{display:flex;justify-content:center;gap:6px;margin-top:2px}
+.wc-dots i{width:8px;height:8px;border-radius:50%;background:var(--parch-shadow)}
+.wc-dots i.on{background:var(--gold-dk);transform:scale(1.25)}
+.wc-card .pw-input{flex:1}
+.cc-wrap{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;justify-content:center;min-height:100%;padding-block:20px}
+.cc-seal{width:96px;animation:starpop .6s cubic-bezier(.2,.9,.3,1.4) both}
+.cc-seal svg{width:100%;height:auto;filter:drop-shadow(0 6px 0 rgba(0,0,0,.35))}
+#chapterend h1{margin:0;font-family:var(--display);font-weight:400;font-size:34px;line-height:1.05;color:var(--gold);text-shadow:0 4px 0 rgba(0,0,0,.3)}
+.cc-rank{margin:0;font-family:var(--display);font-size:22px;color:var(--on-night)}
+#chapterend p{margin:0;line-height:1.55;color:var(--on-night-2)}
+#chapterend .card{width:100%;box-sizing:border-box;text-align:left}
+#chapterend .btn{width:100%;max-width:420px}
+.seg-camp{max-width:320px;margin:10px auto 2px;grid-template-columns:1fr 1fr}
+.camp-tag{text-align:center;margin-bottom:2px}
+
+/* ---------- Tablet / iPad ---------- */
+@media (min-width:700px){
+  #app{max-width:860px}
+  body{font-size:17px}
+  .home-scroll{padding:0 28px 120px}
+  .map-sheet{max-width:560px;margin:8px auto}
+  .seg-camp{max-width:420px}
+  .panel,.profile,.theory-body{max-width:720px;margin:0 auto}
+  .stat-grid{grid-template-columns:repeat(4,1fr)}
+  .ach-grid{grid-template-columns:repeat(3,1fr)}
+  .screen{padding-inline:28px}
+  .stage svg{max-height:420px}
+  .song-stage svg{max-height:520px}
+  .notes button{height:66px}
+  .kb-inner{height:150px}
+  .kb.kb-wide .kb-inner{grid-template-columns:repeat(var(--kn), 54px)}
+  .wc-card{max-width:560px;margin:0 auto}
+  .lesson-card,.chapter-body{max-width:680px;margin:0 auto;width:100%}
+  .qz-opts{max-width:680px;margin:0 auto;width:100%}
+  .qz-card{max-width:680px;margin:22px auto 0}
+  #quiz .btn,#play .intro,#song .intro,#arcade .intro,.res-actions,.stats{max-width:680px;margin-left:auto;margin-right:auto}
+  .nav{padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+}
+@media (min-width:900px) and (orientation:landscape){
+  .stage{min-height:220px}
+}
 </style>
 </head>
 <body>
@@ -449,7 +523,7 @@ body:not([data-screen="home"]) .nav{display:none}
   <section id="home" class="screen">
     <div class="home-scroll">
       <header class="topbar">
-        <p class="logo">Solfeo <span>de bolsillo</span></p>
+        <p class="logo">Clave <span>Maestra</span></p>
         <button id="btnSettings" class="icon-btn" aria-label="Ajustes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
       </header>
       <div id="hud" class="hud">
@@ -478,6 +552,7 @@ body:not([data-screen="home"]) .nav{display:none}
         <ol id="retoList" class="levels"></ol>
       </div>
 
+      <div id="panel-partituras" hidden><div id="scoresBody" class="profile"></div></div>
       <div id="panel-teoria" hidden><div id="theoryBody" class="theory-body"></div></div>
       <div id="panel-perfil" hidden><div id="profileBody" class="profile"></div></div>
     </div>
@@ -485,6 +560,7 @@ body:not([data-screen="home"]) .nav{display:none}
     <nav class="nav" aria-label="Secciones">
       <button data-tab="mapa" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20z"/><path d="M9 4v13.5M15 6.5V20"/></svg>Mapa</button>
       <button data-tab="arcade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><circle cx="15.5" cy="11.5" r="1" fill="currentColor"/><circle cx="18" cy="13.8" r="1" fill="currentColor"/></svg>Arcade</button>
+      <button data-tab="partituras"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M10.5 17.5V10l4 1.4" /><ellipse cx="9" cy="17.8" rx="2" ry="1.6" fill="currentColor" stroke="none"/></svg>Piezas</button>
       <button data-tab="teoria"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><path d="M4 5.5C6.5 4 9.5 4 12 5.5v14c-2.5-1.5-5.5-1.5-8 0zM20 5.5C17.5 4 14.5 4 12 5.5v14c2.5-1.5 5.5-1.5 8 0z"/></svg>Teoría</button>
       <button data-tab="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1.2-4 4-6 7.5-6s6.3 2 7.5 6"/></svg>Perfil</button>
     </nav>
@@ -500,6 +576,30 @@ body:not([data-screen="home"]) .nav{display:none}
         <p class="ns-reward" id="nsReward"></p>
         <div id="nsBtns" class="ov-btns"></div>
       </div>
+    </div>
+  </section>
+
+  <!-- BIENVENIDA -->
+  <section id="welcome" class="screen scroll" hidden>
+    <div class="wc-logo"><p class="logo big">Clave <span>Maestra</span></p><p class="eyebrow">Solfeo y piano para principiantes</p></div>
+    <div id="wcBody" class="wc-card"></div>
+  </section>
+
+  <!-- FIN DE CAPÍTULO -->
+  <section id="chapterend" class="screen scroll" hidden>
+    <div class="cc-wrap">
+      <div class="cc-seal"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#FFC23C" stroke="#8A5E00" stroke-width="3"/><path d="M32 14l5 11 12 1.5-9 8 2.5 12L32 40l-10.5 6.5L24 34.5l-9-8L27 25z" fill="#8A5E00"/></svg></div>
+      <p class="eyebrow">Nuevo rango</p>
+      <h1 id="ccTitle">¡Capítulo superado!</h1>
+      <p class="cc-rank" id="ccRank"></p>
+      <p id="ccText"></p>
+      <div class="card bk">
+        <p class="hint"><b>Guarda tu progreso.</b> Apunta esta contraseña: con ella recuperas la partida en cualquier dispositivo.</p>
+        <div class="pw" id="ccPw"></div>
+        <button id="ccCopy" class="btn btn-ghost">Copiar contraseña</button>
+        <p id="ccMsg" class="hint" aria-live="polite"></p>
+      </div>
+      <button id="ccNext" class="btn btn-gold big">Continuar</button>
     </div>
   </section>
 
@@ -599,6 +699,7 @@ body:not([data-screen="home"]) .nav{display:none}
         <button data-l="0">Do</button><button data-l="1">Re</button><button data-l="2">Mi</button><button data-l="3">Fa</button>
         <button data-l="4">Sol</button><button data-l="5">La</button><button data-l="6">Si</button>
       </div>
+      <div class="kb" id="kbPlay" hidden></div>
     </div>
   </section>
 
@@ -663,6 +764,7 @@ body:not([data-screen="home"]) .nav{display:none}
         <button id="sgListen" class="btn btn-ghost">Escuchar</button>
         <button id="sgPractice" class="btn btn-ghost">Practicar</button>
       </div>
+      <button id="sgPiano" class="btn btn-sky" hidden>Tocar en el teclado</button>
       <button id="sgBoss" class="btn btn-coral big">¡Luchar!</button>
     </div>
     <div id="sgAnswers" class="answers" hidden>
@@ -670,6 +772,7 @@ body:not([data-screen="home"]) .nav{display:none}
         <button data-l="0">Do</button><button data-l="1">Re</button><button data-l="2">Mi</button><button data-l="3">Fa</button>
         <button data-l="4">Sol</button><button data-l="5">La</button><button data-l="6">Si</button>
       </div>
+      <div class="kb" id="kbSong" hidden></div>
     </div>
   </section>
 
@@ -695,6 +798,7 @@ body:not([data-screen="home"]) .nav{display:none}
     <div id="arIntro" class="intro">
       <p>Récord: <b id="arBest">0</b> · Figuras: <span id="arPool"></span>. Tienes 3 vidas; cada 5 aciertos seguidos multiplicas los puntos y cada 8 notas destruidas llega una oleada más rápida.</p>
       <div class="range-box">
+        <div class="opt"><span class="opt-label">Responder</span><div class="seg" id="arInput" role="group" aria-label="Forma de responder"><button data-in="botones">Botones</button><button data-in="piano">Teclado</button></div></div>
         <div class="opt"><span class="opt-label">Claves</span><div class="seg seg3" id="arClefs" role="group" aria-label="Claves"><button data-c="both">Ambas</button><button data-c="sol">Sol</button><button data-c="fa">Fa</button></div></div>
         <div class="opt"><span class="opt-label">Rango</span><div class="seg seg4" id="arPreset" role="group" aria-label="Rango de notas"><button data-p="learned">Aprendido</button><button data-p="staff">Pentagrama</button><button data-p="ledger">Con 1 línea adicional</button><button data-p="all">Todo</button></div></div>
         <div class="range-row" id="arSolRow"><span class="clef-chip">𝄞</span>Desde<select id="arSolLo" aria-label="Clave de sol: nota más grave"></select>hasta<select id="arSolHi" aria-label="Clave de sol: nota más aguda"></select></div>
@@ -706,10 +810,11 @@ body:not([data-screen="home"]) .nav{display:none}
       <button id="arPlay" class="btn btn-coral big">¡Jugar!</button>
     </div>
     <div id="arAnswers" class="answers" hidden>
-      <div class="notes" id="arBtns">
+      <div class="notes" id="arcBtns">
         <button data-l="0">Do</button><button data-l="1">Re</button><button data-l="2">Mi</button><button data-l="3">Fa</button>
         <button data-l="4">Sol</button><button data-l="5">La</button><button data-l="6">Si</button>
       </div>
+      <div class="kb" id="kbArc" hidden></div>
     </div>
   </section>
 
@@ -739,6 +844,7 @@ body:not([data-screen="home"]) .nav{display:none}
       <div class="row"><label for="optSound">Sonido<small>Suena la nota al responder. Revisa el interruptor de silencio del iPhone.</small></label><input type="checkbox" class="switch" id="optSound"></div>
       <div class="row"><label for="optOctave">Mostrar octava<small>Indica la octava en las correcciones (Do3 = Do central).</small></label><input type="checkbox" class="switch" id="optOctave"></div>
       <div class="row"><label for="optUnlock">Modo libre<small>Abre todos los niveles sin marcarlos como saltados.</small></label><input type="checkbox" class="switch" id="optUnlock"></div>
+      <div class="row"><label for="optKeyNames">Nombres en las teclas<small>Escribe el nombre en cada tecla del piano de la pantalla.</small></label><input type="checkbox" class="switch" id="optKeyNames"></div>
       <p class="hint"><b>Usarla como app:</b> en Safari, Compartir › «Añadir a pantalla de inicio». Tu contraseña de progreso está en <b>Perfil</b>. En ordenador puedes responder con las teclas 1–7 (Do–Si).</p>
       <button id="btnVoiceReset" class="btn btn-ghost">Borrar el entrenamiento de voz</button>
       <button id="btnReset" class="danger">Borrar todo mi progreso</button>
@@ -818,11 +924,11 @@ const VoiceEngine = (() => {
   }
 
   /* Detector de actividad de voz con suelo de ruido adaptativo */
-  function makeDetector(sampleRate, onSegment, onLevel){
+  function makeDetector(sampleRate, onSegment, onLevel, onPartial){
     const A = makeAnalyzer(sampleRate);
     const ms = x => Math.max(1, Math.round(x / A.hopMs));
-    const PRE = ms(90), ON = ms(30), OFF = ms(110), MIN = ms(120), MAX = ms(900);
-    let noise = -65, inSpeech = false, onCount = 0, quiet = 0, seg = [], pre = [], startT = 0;
+    const PRE = ms(90), ON = ms(24), OFF = ms(70), MIN = ms(110), MAX = ms(900), PART = ms(150), PSTEP = ms(30);
+    let noise = -65, inSpeech = false, onCount = 0, quiet = 0, seg = [], pre = [], startT = 0, skip = false, nextPart = 0;
     let buf = new Float32Array(0), t = 0;
 
     function push(chunk){
@@ -842,11 +948,16 @@ const VoiceEngine = (() => {
       if (!inSpeech){
         noise = f.db < noise ? 0.8*noise + 0.2*f.db : 0.985*noise + 0.015*f.db;
         pre.push(f); if (pre.length > PRE) pre.shift();
-        if (f.db > on){ onCount++; if (onCount >= ON){ inSpeech = true; quiet = 0; seg = pre.slice(); startT = t - pre.length*A.hopMs; } }
+        if (f.db > on){ onCount++; if (onCount >= ON){ inSpeech = true; quiet = 0; skip = false; nextPart = PART; seg = pre.slice(); startT = t - pre.length*A.hopMs; } }
         else onCount = 0;
       } else {
         seg.push(f);
         quiet = f.db < offT ? quiet + 1 : 0;
+        if (onPartial && !skip && seg.length >= nextPart){
+          nextPart = seg.length + PSTEP;
+          const frames = seg.slice(0, Math.max(1, seg.length - quiet));
+          if (frames.length >= MIN) onPartial(toFeatures(frames), { dur: frames.length*A.hopMs, partial:true });
+        }
         if (quiet >= OFF || seg.length > MAX){
           const tooLong = seg.length > MAX;
           inSpeech = false; onCount = 0;
@@ -856,12 +967,14 @@ const VoiceEngine = (() => {
           frames = frames.slice(Math.max(0, s0 - 2));
           pre = []; seg = [];
           if (tooLong){ noise = Math.min(-30, noise + 6); return; }  // ruido continuo: sube el suelo
+          if (skip){ skip = false; return; }
           if (frames.length >= MIN) onSegment(toFeatures(frames), { startT, endT: t, dur: frames.length*A.hopMs });
         }
       }
     }
-    function reset(){ inSpeech = false; onCount = 0; quiet = 0; seg = []; pre = []; }
-    return { push, reset, get noise(){ return noise; }, hopMs: A.hopMs };
+    function reset(){ inSpeech = false; onCount = 0; quiet = 0; seg = []; pre = []; skip = false; }
+    function skipRest(){ skip = true; }
+    return { push, reset, skipRest, get noise(){ return noise; }, hopMs: A.hopMs };
   }
 
   function toFeatures(frames){
@@ -1063,42 +1176,134 @@ const BOSS_FAILS = [
 ];
 const rndOf = a => a[Math.floor(Math.random()*a.length)];
 
-/* ---------- Niveles del mapa ---------- */
+/* ---------- Campaña de piano ---------- */
+const PIANO = [
+  { id:"p1", rank:"Manos nuevas", zone:"La Posición de Do", figs:["negra","blanca"],
+    add:["s:C4","s:D4","s:E4"], hand:"derecha",
+    story:"Siéntate en el centro del piano y busca el <b>Do central</b>: la tecla blanca justo a la izquierda de un grupo de <b>dos teclas negras</b>. Pon ahí el <b>pulgar derecho</b> (dedo 1); el índice (2) cae en Re y el corazón (3) en Mi. Esa es la <b>posición de Do</b>: la mano quieta, los dedos hacen el trabajo.",
+    quote:["Los dedos deben caer como martillos, no empujar como palas.","atribuida a Frédéric Chopin"],
+    song:{ name:"Mary tenía un corderito", origin:"Tradicional, EE. UU., 1830", bpm:60,
+      notes:"s:E4:1 s:D4:1 s:C4:1 s:D4:1 s:E4:1 s:E4:1 s:E4:2 s:D4:1 s:D4:1 s:E4:1 s:D4:1 s:C4:2" } },
+  { id:"p2", rank:"Dos manos", zone:"La Mano Izquierda", figs:["redonda"],
+    add:["f:C4","f:B3","f:A3"], hand:"izquierda",
+    story:"Ahora la izquierda. Su <b>pulgar (1)</b> también toca el Do central, y los dedos 2 y 3 bajan a <b>Si</b> y <b>La</b>: las teclas blancas a la izquierda del Do. En la partitura esas notas viven en la <b>clave de fa</b>, el pentagrama de abajo. Mano izquierda = pentagrama de abajo. Siempre.",
+    quote:["La mano izquierda es el director de orquesta.","atribuida a Franz Liszt"],
+    song:{ name:"Bollitos calientes", origin:"Pregón tradicional inglés", bpm:60,
+      notes:"f:C4:1 f:B3:1 f:A3:2 f:C4:1 f:B3:1 f:A3:2 f:A3:1 f:A3:1 f:B3:1 f:B3:1 f:C4:1 f:B3:1 f:A3:2" } },
+  { id:"p3", rank:"Cinco dedos", zone:"El Puño Completo", figs:["negraP","corchea"],
+    add:["s:F4","s:G4"], hand:"derecha",
+    story:"Extiende la derecha: <b>anular (4) en Fa</b> y <b>meñique (5) en Sol</b>. Ya tienes las cinco teclas bajo los cinco dedos, sin mover la mano. Regla de oro: si la nota sube un escalón en el papel, subes un dedo en el teclado.",
+    quote:["Tocar sin digitación es como escribir sin ortografía.","atribuida a Carl Czerny"],
+    song:{ name:"Himno de la alegría", origin:"Ludwig van Beethoven, 1824", bpm:64,
+      notes:"s:E4:1 s:E4:1 s:F4:1 s:G4:1 s:G4:1 s:F4:1 s:E4:1 s:D4:1 s:C4:1 s:C4:1 s:D4:1 s:E4:1 s:E4:1.5 s:D4:0.5 s:D4:2" } },
+  { id:"p4", rank:"Bajo firme", zone:"El Sótano", figs:["dosCorcheas"],
+    add:["f:G3","f:F3"], hand:"izquierda",
+    story:"La izquierda también quiere sus cinco: <b>4 en Sol</b> y <b>5 en Fa</b>, hacia la izquierda del teclado. Ojo: en la mano izquierda el <b>meñique</b> toca la nota más grave y el pulgar la más aguda. Es la imagen reflejada de la derecha.",
+    quote:["El bajo sostiene la casa; la melodía solo la decora.","atribuida a Johann Sebastian Bach"],
+    song:{ name:"Al claro de la luna", origin:"Tradicional francesa, s. XVIII", bpm:64,
+      notes:"f:F3:1 f:F3:1 f:F3:1 f:G3:1 f:A3:2 f:G3:2 f:F3:1 f:A3:1 f:G3:1 f:G3:1 f:F3:4" } },
+  { id:"p5", rank:"Manos juntas", zone:"El Diálogo", figs:["semicorchea"],
+    add:["s:A4","f:E3","f:D3","f:C3"], hand:"ambas",
+    story:"La melodía salta de una mano a otra. Cuando veas una nota en el pentagrama de arriba, toca con la derecha; si está abajo, con la izquierda. El <b>Do central</b> es la frontera y lo puede tocar cualquiera de las dos.",
+    quote:["Las dos manos deben conversar, no discutir.","atribuida a Robert Schumann"],
+    song:{ name:"Martinillo", origin:"Canon tradicional francés", bpm:52,
+      notes:"f:C3:1 f:D3:1 f:E3:1 f:C3:1 f:C3:1 f:D3:1 f:E3:1 f:C3:1 f:E3:1 f:F3:1 f:G3:2 s:G4:0.5 s:A4:0.5 s:G4:0.5 s:F4:0.5 s:E4:1 s:C4:1 f:C3:1 f:G3:1 f:C3:2" } },
+  { id:"p6", rank:"Registro amplio", zone:"La Octava", figs:["blancaP"],
+    add:["s:B4","s:C5"], hand:"derecha",
+    story:"Para pasar el meñique más allá de Sol hay que mover la mano: desplázala a la derecha y coloca el pulgar en Sol. Ese gesto se llama <b>cambio de posición</b> y es el secreto para tocar más de cinco notas seguidas.",
+    quote:["La mano viaja; la música no espera.","atribuida a Clara Schumann"],
+    song:{ name:"Canción de cuna", origin:"Johannes Brahms, 1868", bpm:64,
+      notes:"s:E4:1 s:E4:1 s:G4:2 s:E4:1 s:E4:1 s:G4:2 s:E4:1 s:G4:1 s:C5:2 s:B4:1 s:A4:1 s:A4:1 s:G4:3" } },
+  { id:"p7", rank:"Teclas negras", zone:"El Bosque Negro", figs:[],
+    add:["s:F#4","s:A#4"], hand:"derecha", accidentals:true,
+    story:"Las <b>teclas negras</b> son los sostenidos y bemoles. <b>Fa♯</b> es la negra que está justo a la derecha del Fa; <b>Si♭</b>, la que está justo a la izquierda del Si (y es la misma tecla que La♯). Se tocan con el mismo dedo que la blanca vecina, pero con la mano un poco más adentro del teclado.",
+    quote:["Las teclas negras son el atajo entre dos mundos.","atribuida a Claude Debussy"],
+    song:{ name:"Himno de la alegría en Sol", origin:"Ludwig van Beethoven, 1824 · transportado", bpm:60,
+      notes:"s:B4:1 s:B4:1 s:C5:1 s:D5:1 s:D5:1 s:C5:1 s:B4:1 s:A4:1 s:G4:1 s:G4:1 s:A4:1 s:B4:1 s:B4:1.5 s:A4:0.5 s:A4:2" } },
+  { id:"p8", rank:"Concertista", zone:"El Recital", figs:[],
+    add:["s:D5","s:E5"], hand:"ambas",
+    story:"Último capítulo: las dos manos, cambio de posición y una melodía completa. Respira antes de empezar, mira el primer compás y no pares aunque falles. Un concertista no se detiene: sigue y arregla el desaguisado sobre la marcha.",
+    quote:["Tocar es contar una historia con las manos.","atribuida a Arthur Rubinstein"],
+    song:{ name:"La Oda de las dos manos", origin:"Ludwig van Beethoven, 1824", bpm:62,
+      notes:"s:E5:1 s:E5:1 s:D5:1 s:C5:1 s:C5:1 s:D5:1 s:E5:1 s:C5:1 f:C3:1 f:D3:1 f:E3:1 f:C3:2 s:G4:1 s:A4:1 s:B4:1 s:C5:2 f:C3:2 s:C5:2" } },
+];
+const PIANO_TYPES = {
+  pLectura:{ name:"El teclado", verb:"Leer", color:"parch", xp:20, desc:"Maese Clavius te enseña dónde caen las teclas y los dedos." },
+  pTeclas:{ name:"Nota a tecla", verb:"Tocar", color:"mint", xp:50, desc:"Ves la nota en el pentagrama y pulsas su tecla en el piano." },
+  pTempo:{ name:"Al compás (piano)", verb:"Tocar", color:"violet", xp:60, desc:"Las notas llegan a tempo y las tocas en el teclado. 3 vidas." },
+  pQuiz:{ name:"Examen de teclado", verb:"Examinarse", color:"gold", xp:40, desc:"6 preguntas sobre teclas, dedos y posiciones." },
+  pJefe:{ name:"Recital", verb:"¡Tocar!", color:"coral", xp:150, desc:"Toca la pieza completa a tempo, sin fallos." },
+};
+const PIANO_PLAN = i => i % 2 === 0 ? ["pLectura","pTeclas","pTempo","pJefe"] : ["pLectura","pTeclas","pQuiz","pTempo","pJefe"];
+const PIANO_QUIZ = [
+  [0,"El Do central está justo a la izquierda de…","Un grupo de dos teclas negras","Un grupo de tres teclas negras","Cualquier tecla negra","El final del teclado","Los grupos de dos y tres negras te orientan."],
+  [0,"En la mano derecha, ¿qué dedo es el número 1?","El pulgar","El índice","El meñique","El corazón","1 pulgar, 2 índice, 3 corazón, 4 anular, 5 meñique."],
+  [0,"En la posición de Do, el dedo 3 de la derecha toca…","Mi","Do","Sol","Fa","1 Do, 2 Re, 3 Mi, 4 Fa, 5 Sol."],
+  [1,"Las notas del pentagrama de abajo (clave de fa) se tocan con…","La mano izquierda","La mano derecha","Las dos a la vez","El pedal","Arriba derecha, abajo izquierda."],
+  [1,"En la mano izquierda, el meñique toca…","La nota más grave","La nota más aguda","El Do central","Siempre una tecla negra","La izquierda es la imagen reflejada de la derecha."],
+  [2,"Si una nota sube un escalón en el pentagrama, en el teclado…","Vas a la tecla blanca de la derecha","Vas dos teclas a la derecha","Vas a la izquierda","Cambias de mano","Un escalón = la tecla blanca vecina."],
+  [3,"¿Qué dedo de la izquierda toca el Do central en la posición básica?","El pulgar","El meñique","El anular","El índice","Los dos pulgares se encuentran en el Do central."],
+  [4,"Cuando la melodía pasa al pentagrama de arriba…","Sigues con la mano derecha","Sigues con la izquierda","Tocas con las dos","Paras","Cada pentagrama tiene su mano."],
+  [5,"Para tocar más de cinco notas seguidas hay que…","Cambiar la mano de posición","Usar el pedal","Tocar más fuerte","Cambiar de clave","Se llama cambio de posición."],
+  [6,"El Fa♯ es…","La tecla negra justo a la derecha del Fa","La tecla negra a la izquierda del Fa","Una tecla blanca","Lo mismo que Sol","Sostenido = medio tono arriba."],
+  [6,"El Si♭ es la misma tecla que…","La♯","Si natural","Do♭","Sol♯","Dos nombres, una sola tecla negra."],
+  [7,"Si te equivocas en mitad de una pieza, lo mejor es…","Seguir y recolocarte","Parar y empezar de cero","Tocar más rápido","Quitar una mano","El pulso no espera."],
+];
+
+/* ---------- Niveles de las dos campañas ---------- */
 const NODE_TYPES = {
   lectura: { name:"Pergamino", verb:"Leer", color:"parch", xp:20, desc:"Maese Clavius te presenta las notas y figuras nuevas del capítulo." },
   entreno: { name:"Entrenamiento", verb:"Entrenar", color:"mint", xp:40, desc:"15 notas al azar, con más probabilidad para las nuevas. Necesitas un 80 %." },
   claves:  { name:"Cambio de clave", verb:"Jugar", color:"sky", xp:50, desc:"Las notas saltan de la clave de sol a la de fa. Mira siempre la clave primero." },
   crono:   { name:"Contrarreloj", verb:"Jugar", color:"orange", xp:50, desc:"45 segundos. Cada fallo resta 2. Llega al objetivo de aciertos." },
   tempo:   { name:"Al compás", verb:"Jugar", color:"violet", xp:60, desc:"Suena el metrónomo y las notas llegan a tempo. Nombra cada una antes de que cruce la línea. 3 vidas." },
+  teclado: { name:"Nota a tecla", verb:"Tocar", color:"sky", xp:50, desc:"Igual que el entrenamiento, pero respondes pulsando la tecla en un piano." },
   quiz:    { name:"Examen de teoría", verb:"Examinarse", color:"gold", xp:40, desc:"6 preguntas sobre lo que ya deberías saber. Necesitas 4 bien." },
   jefe:    { name:"Jefe final", verb:"¡Luchar!", color:"coral", xp:150, desc:"Solfea la canción a tempo y sin un solo fallo." },
+  ...PIANO_TYPES,
 };
 const CHALLENGES = [
-  ["quiz","tempo"], ["claves","crono"], ["tempo","quiz"], ["crono","claves"],
-  ["quiz","tempo","crono"], ["claves","tempo","quiz"], ["crono","quiz","claves"], ["tempo","crono","quiz"],
-  ["claves","tempo","crono"], ["quiz","crono","tempo"], ["tempo","claves","quiz","crono"],
+  ["quiz","teclado","tempo"], ["claves","crono","teclado"], ["tempo","quiz","teclado"], ["crono","claves","teclado"],
+  ["quiz","tempo","teclado","crono"], ["claves","tempo","teclado","quiz"], ["crono","quiz","teclado","claves"], ["tempo","crono","teclado","quiz"],
+  ["claves","tempo","teclado","crono"], ["quiz","crono","teclado","tempo"], ["tempo","claves","teclado","quiz","crono"],
+];
+const CAMPAIGNS = [
+  { id:"solfeo", name:"Solfeo", tag:"Lee y nombra las notas", chapters:STORY, plan:i => ["lectura","entreno", ...CHALLENGES[i], "jefe"] },
+  { id:"piano", name:"Piano", tag:"Toca las notas en el teclado", chapters:PIANO, plan:PIANO_PLAN },
 ];
 const NODES = [];
-STORY.forEach((c, i) => {
-  ["lectura", "entreno", ...CHALLENGES[i], "jefe"].forEach((type, k) => {
-    NODES.push({ id:`c${i+1}-${k+1}`, ch:i, k, type, idx:NODES.length });
+CAMPAIGNS.forEach((camp, ci) => {
+  camp.nodes = [];
+  camp.chapters.forEach((c, i) => {
+    camp.plan(i).forEach((type, k) => {
+      const n = { id:`${ci ? "p" : "c"}${i+1}-${k+1}`, camp:camp.id, ci, ch:i, k, type, idx:NODES.length, cidx:camp.nodes.length };
+      NODES.push(n); camp.nodes.push(n);
+    });
   });
 });
+const campOf = n => CAMPAIGNS[n.ci];
+const chapterOf = n => campOf(n).chapters[n.ch];
 const nodeById = id => NODES.find(n => n.id === id);
-const chapterNodes = i => NODES.filter(n => n.ch === i);
+const chapterNodes = (i, camp) => (camp ? CAMPAIGNS.find(c => c.id === camp) : CAMPAIGNS[0]).nodes.filter(n => n.ch === i);
 function nodeTitle(n){
-  const c = STORY[n.ch];
-  if (n.type === "lectura") return c.zone;
-  if (n.type === "jefe") return c.song.name;
+  const c = chapterOf(n);
+  if (n.type === "lectura" || n.type === "pLectura") return c.zone;
+  if (n.type === "jefe" || n.type === "pJefe") return c.song.name;
   return NODE_TYPES[n.type].name;
 }
 function nodeParams(n){
   const i = n.ch;
   if (n.type === "crono") { const t1 = Math.round(9 + i*1.3); return { time:45, targets:[t1, t1+5, t1+10] }; }
   if (n.type === "tempo") return { bpm: 46 + i*4, count: 12 + i, lives:3 };
+  if (n.type === "pTempo") return { bpm: 44 + i*3, count: 10 + i, lives:3 };
   return {};
 }
-
+const isPianoNode = n => n.camp === "piano" || n.type === "teclado";
+function learnedUpToPiano(idx){
+  const out = { sol:new Set(), fa:new Set() }, accs = [];
+  for (let i = 0; i <= idx; i++) PIANO[i].add.forEach(s => { const n = pNote(s); out[n.clef].add(n.d); if (n.acc) accs.push(n); });
+  return { sol:[...out.sol].sort((a,b)=>a-b), fa:[...out.fa].sort((a,b)=>a-b), accs };
+}
 /* ---------- Retos del arcade ---------- */
 const RETOS = [
   { id:"crono", name:"Contrarreloj libre", notes:{sol:dRange("C4","G5"), fa:dRange("F2","C4")}, timed:60, targets:[15,25,35], grand:true, needsBoss:3,
@@ -1113,15 +1318,17 @@ const RETOS = [
 const byId = id => RETOS.find(l => l.id === id);
 
 /* ---------- Almacenamiento ---------- */
-const KEY = "solfeo-bolsillo-v4";
+const KEY = "solfeo-bolsillo-v5";
 const blankStats = () => ({ notes:0, correct:0, bestStreak:0, timeSum:0, timeN:0, voice:0, perNote:{}, days:[], bossWins:0, perfectRounds:0, fastRounds:0 });
-let store = { nodes:{}, skips:{}, best:{}, xp:0, arcade:{ best:0 }, ach:{}, stats:blankStats(), tab:"mapa", voiceSamples:null,
-  settings:{ sound:true, octave:true, unlock:false, voice:false, engine:"propia", strict:"normal" } };
+let store = { nodes:{}, skips:{}, best:{}, scores:{}, xp:0, arcade:{ best:0 }, ach:{}, stats:blankStats(), tab:"mapa", mapCamp:"solfeo", seen:false, voiceSamples:null,
+  settings:{ sound:true, octave:true, unlock:false, voice:false, engine:"propia", strict:"normal", keyNames:true, arcadeInput:"botones" } };
 try {
   const raw = localStorage.getItem(KEY);
   if (raw) { const s = JSON.parse(raw); store = { ...store, ...s, stats:{ ...blankStats(), ...(s.stats||{}) }, settings:{ ...store.settings, ...(s.settings||{}) } }; }
   else {
-    const old = JSON.parse(localStorage.getItem("solfeo-bolsillo-v3") || localStorage.getItem("solfeo-bolsillo-v2") || "null");
+    const old = JSON.parse(localStorage.getItem("solfeo-bolsillo-v4") || localStorage.getItem("solfeo-bolsillo-v3") || "null");
+    if (old && old.nodes){ store = { ...store, ...old, scores:{}, seen:true, stats:{ ...blankStats(), ...(old.stats||{}) }, settings:{ ...store.settings, ...(old.settings||{}) } }; }
+    else
     if (old){
       store.settings = { ...store.settings, ...(old.settings||{}) };
       store.voiceSamples = old.voiceSamples || null;
@@ -1134,7 +1341,8 @@ try {
     }
   }
 } catch(e){}
-if (!["mapa","arcade","teoria","perfil"].includes(store.tab)) store.tab = "mapa";
+if (!["mapa","arcade","partituras","teoria","perfil"].includes(store.tab)) store.tab = "mapa";
+if (!store.scores) store.scores = {};
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e){} };
 (function markDay(){ const d = new Date().toISOString().slice(0,10); if (!store.stats.days.includes(d)){ store.stats.days.push(d); store.stats.days = store.stats.days.slice(-400); save(); } })();
 
@@ -1144,12 +1352,13 @@ const nodeCleared = id => nodeDone(id) || nodeSkipped(id);
 function nodeState(n){
   if (nodeDone(n.id)) return "done";
   if (nodeSkipped(n.id)) return "skipped";
-  if (store.settings.unlock || n.idx === 0 || nodeCleared(NODES[n.idx-1].id)) return "open";
+  const prev = campOf(n).nodes[n.cidx - 1];
+  if (store.settings.unlock || !prev || nodeCleared(prev.id)) return "open";
   return "locked";
 }
-const frontier = () => { let i = 0; while (i < NODES.length && nodeCleared(NODES[i].id)) i++; return i; };
-const bossDone = i => nodeCleared(`c${i+1}-${chapterNodes(i).length}`);
-const bossBeaten = i => nodeDone(`c${i+1}-${chapterNodes(i).length}`);
+const frontier = (camp) => { const list = (camp || CAMPAIGNS[0]).nodes; let i = 0; while (i < list.length && nodeCleared(list[i].id)) i++; return i; };
+const bossDone = i => { const ns = chapterNodes(i); return nodeCleared(ns[ns.length-1].id); };
+const bossBeaten = i => { const ns = chapterNodes(i); return nodeDone(ns[ns.length-1].id); };
 const retoOpen = r => store.settings.unlock || bossDone(r.needsBoss - 1);
 const chapterReached = i => store.settings.unlock || i === 0 || nodeCleared(chapterNodes(i)[0].id) || nodeState(chapterNodes(i)[0]) === "open";
 function currentRank(){
@@ -1157,9 +1366,10 @@ function currentRank(){
   STORY.forEach((c, i) => { if (bossBeaten(i)) { r = c.rank; n = i + 1; } });
   return { rank:r, done:n };
 }
-function currentChapterIdx(){ const f = frontier(); return f >= NODES.length ? STORY.length - 1 : NODES[f].ch; }
+function currentChapterIdx(){ const list = CAMPAIGNS[0].nodes, f = frontier(); return f >= list.length ? STORY.length - 1 : list[f].ch; }
 function learnedForArcade(){
-  const f = frontier(), idx = f === 0 ? 0 : NODES[Math.min(f, NODES.length) - 1].ch;
+  const list = CAMPAIGNS[0].nodes, f = frontier();
+  const idx = f === 0 ? 0 : list[Math.min(f, list.length) - 1].ch;
   return { idx, notes: learnedUpTo(idx) };
 }
 function levelFromXp(xp){ let lvl = 1, need = 150; while (xp >= need){ xp -= need; lvl++; need = 150 + (lvl-1)*75; } return { lvl, into:xp, need }; }
@@ -1191,6 +1401,8 @@ const ACHIEVEMENTS = [
   { id:"semana", icon:"7", name:"Hábito de pianista", desc:"Juega 7 días distintos.", test:() => store.stats.days.length >= 7 },
   { id:"limpio", icon:"✓", name:"Sin atajos", desc:"Completa un capítulo sin saltarte ningún nivel.", test:() => STORY.some((c, i) => chapterNodes(i).every(n => nodeDone(n.id))) },
   { id:"leyenda", icon:"♔", name:"Señor del Pentagrama", desc:"Vence al jefe final de la historia.", test:() => bossBeaten(STORY.length - 1) },
+  { id:"pianista", icon:"⌨", name:"Manos al teclado", desc:"Completa un capítulo de la campaña de piano.", test:() => PIANO.some((c, i) => chapterNodes(i, "piano").every(n => nodeDone(n.id))) },
+  { id:"concertista", icon:"♬", name:"Concertista", desc:"Toca tres partituras con al menos una estrella.", test:() => Object.values(store.scores || {}).filter(s => s.stars >= 1).length >= 3 },
 ];
 function checkAchievements(){
   const fresh = [];
@@ -1207,6 +1419,7 @@ function toast(title, text, icon){
 }
 
 /* ---------- Completar y saltar niveles ---------- */
+let PENDING_CEL = null;
 function completeNode(n, stars){
   const prev = store.nodes[n.id];
   const first = !prev;
@@ -1215,9 +1428,10 @@ function completeNode(n, stars){
   let xp = 0;
   if (first) xp = NODE_TYPES[n.type].xp;
   else if (stars > prev.stars) xp = Math.round(NODE_TYPES[n.type].xp/3);
-  if (n.type === "jefe" && first) store.stats.bossWins++;
+  if ((n.type === "jefe" || n.type === "pJefe") && first) store.stats.bossWins++;
   addXp(xp);
   save(); checkAchievements();
+  if (chapterFinished(n)) PENDING_CEL = n;
   return xp;
 }
 function addXp(xp){
@@ -1228,7 +1442,8 @@ function addXp(xp){
   if (after > before) setTimeout(() => toast("¡Subes de nivel!", `Ahora eres nivel ${after}`, "▲"), 300);
 }
 function skipTo(n, inclusive){
-  for (let i = 0; i < n.idx + (inclusive ? 1 : 0); i++){ const m = NODES[i]; if (!nodeDone(m.id) && !store.skips[m.id]) store.skips[m.id] = Date.now(); }
+  const list = campOf(n).nodes;
+  for (let i = 0; i < n.cidx + (inclusive ? 1 : 0); i++){ const m = list[i]; if (!nodeDone(m.id) && !store.skips[m.id]) store.skips[m.id] = Date.now(); }
   save();
 }
 /* ---------- Pentagrama SVG ---------- */
@@ -1422,7 +1637,7 @@ function click(accent){
 
 /* ---------- DOM ---------- */
 const $ = id => document.getElementById(id);
-const screens = ["home","play","result","train","chapter","song","arcade","lesson","quiz"];
+const screens = ["home","play","result","train","chapter","song","arcade","lesson","quiz","welcome","chapterend"];
 const show = id => { screens.forEach(s => $(s).hidden = s !== id); document.body.dataset.screen = id; try { window.scrollTo(0,0); } catch(e){} };
 let ACTIVE = null;
 /* ---------- Partida ---------- */
@@ -1440,6 +1655,10 @@ function openLevel(lvlOrId){
   $("feedback").textContent = ""; $("feedback").className = "feedback";
   $("stage").className = "stage"; $("streak").textContent = "";
   $("progFill").style.width = "0%";
+  const piano = lvl.input === "piano";
+  setAnswerMode("play", lvl.input || "botones", lvl.notes, answer);
+  $("playVoiceSlot").hidden = piano;
+  if (piano) $("figInfo").innerHTML += " <b>Responde tocando la tecla.</b>";
   mountVoice($("playVoiceSlot"), () => openLevel(lvl));
   mountMic($("stage"));
   if (voiceBlocked && store.settings.voice) showPopout(true);
@@ -1473,14 +1692,14 @@ function weightedPool(lvl){
   return base.concat(extra, extra);
 }
 function start(){
-  if (store.settings.voice && store.settings.engine === "propia" && !VM){ const lv = G.lvl; openTraining(() => openLevel(lv)); return; }
+  if (G.lvl.input !== "piano" && store.settings.voice && store.settings.engine === "propia" && !VM){ const lv = G.lvl; openTraining(() => openLevel(lv)); return; }
   ACTIVE = PLAY_INPUT;
   G.pool = G.lvl.node && G.lvl.node.type === "entreno" ? weightedPool(G.lvl) : pool(G.lvl);
   G.running = true;
   $("intro").hidden = true; $("answers").hidden = false;
   if (G.lvl.timed){ G.t0 = performance.now(); G.penalty = 0; G.timer = setInterval(tick, 100); }
   tone(0.0001); // desbloquea el audio en iOS con el gesto
-  if (store.settings.voice) startVoice();
+  if (store.settings.voice && G.lvl.input !== "piano") startVoice();
   next();
 }
 function remaining(){ return Math.max(0, G.lvl.timed*1000 - (performance.now()-G.t0) - G.penalty); }
@@ -1543,10 +1762,13 @@ function flash(cls, ms){
   $("stage").className = "stage " + cls;
   if (ms) flashT = setTimeout(() => { $("stage").className = "stage"; }, ms);
 }
-function answer(l){
+function answer(ans){
   if (!G || !G.running || G.busy) return;
   const item = G.cur, c = item.notes[G.sub];
-  const ok = (l === c.d%7) && (G.acc === c.acc);
+  const piano = typeof ans === "object";
+  const l = piano ? c.d%7 : ans;
+  const ok = piano ? ans.midi === midiOf(c.d, c.acc) : (l === c.d%7) && (G.acc === c.acc);
+  if (piano) markKey($("kbPlay"), ans.midi, ok ? "ok" : "bad");
   const now = performance.now(), dt = (now - G.shown)/1000;
   const key = `${item.clef}|${c.d}|${c.acc}`;
   tone(freqOf(c.d, c.acc));
@@ -1557,17 +1779,18 @@ function answer(l){
   if (ok){
     G.correct++; G.streak++; G.best = Math.max(G.best, G.streak); G.times.push(dt);
     recordAnswer(item.clef, c.d, true, dt, G.streak);
-    btns[l].className = "right";
+    if (!piano) btns[l].className = "right";
     $("feedback").className = "feedback ok"; $("feedback").textContent = `¡${name}!`;
   } else {
     G.streak = 0;
     recordAnswer(item.clef, c.d, false, dt, 0);
     G.errors[key] = (G.errors[key]||0)+1;
     if (G.lvl.timed) G.penalty += 2000;
-    btns[l].className = "wrong"; btns[c.d%7].className = "right";
+    if (!piano){ btns[l].className = "wrong"; btns[c.d%7].className = "right"; }
+    if (piano) markKey($("kbPlay"), midiOf(c.d, c.acc), "right-key");
     $("answers").classList.remove("shake"); void $("answers").offsetWidth; $("answers").classList.add("shake");
     $("feedback").className = "feedback bad";
-    $("feedback").textContent = `Era ${name}${c.acc && l===c.d%7 ? " — revisa la alteración" : ""}`;
+    $("feedback").textContent = `Era ${name}${!piano && c.acc && l===c.d%7 ? " — revisa la alteración" : ""}`;
   }
   G.idx++;
   $("streak").textContent = G.streak >= 3 ? (G.streak % 5 === 0 ? `${rndOf(CHEERS)} Racha ${G.streak}` : `Racha: ${G.streak}`) : (!ok && G.lvl.node && Math.random() < 0.5 ? rndOf(TAUNTS) : "");
@@ -1632,6 +1855,7 @@ function finish(){
 }
 function leave(){
   stopAll();
+  if (PENDING_CEL){ const n = PENDING_CEL; PENDING_CEL = null; renderHome(); return celebrateChapter(n); }
   renderHome(); show("home");
 }
 const PLAY_INPUT = { answer:l => answer(l), running:() => !!(G && G.running), busy:() => !!(G && G.busy), readyAt:() => G ? G.readyAt : 0, acc:() => !!(G && G.lvl.accidentals), setAcc:v => setAcc(v) };
@@ -1689,7 +1913,7 @@ $("btnPopout").addEventListener("click", () => openOutside($("popoutUrl")));
 let VM = null;
 try { if (store.voiceSamples) VM = VoiceEngine.buildModel(VoiceEngine.unpack(store.voiceSamples).t); } catch(e){ VM = null; }
 let mic = null, voiceOn = false, voiceBlocked = false;
-async function micStart(onSeg, onLevel){
+async function micStart(onSeg, onLevel, onPartial){
   micStop();
   actx = actx || new (window.AudioContext || window.webkitAudioContext)();
   const resumed = actx.state === "suspended" ? actx.resume() : null;
@@ -1700,7 +1924,7 @@ async function micStart(onSeg, onLevel){
   const lp = actx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 5500;
   const proc = actx.createScriptProcessor(2048, 1, 1);
   const mute = actx.createGain(); mute.gain.value = 0;
-  const det = VoiceEngine.makeDetector(actx.sampleRate, onSeg, onLevel);
+  const det = VoiceEngine.makeDetector(actx.sampleRate, onSeg, onLevel, onPartial);
   proc.onaudioprocess = e => det.push(e.inputBuffer.getChannelData(0));
   src.connect(hp); hp.connect(lp); lp.connect(proc); proc.connect(mute); mute.connect(actx.destination);
   mic = { stream, src, proc, mute, hp, lp, det };
@@ -1726,6 +1950,14 @@ function heard(txt, cls){
   const h = $("heard"); h.textContent = txt; h.className = "heard " + (cls || "");
   heardT = setTimeout(() => { h.textContent = ""; }, 1400);
 }
+function onGamePartial(feat, info){
+  if (!ACTIVE || !ACTIVE.running() || ACTIVE.busy() || !VM) return;
+  const r = VoiceEngine.classify(VM, feat, margin() + 0.25);
+  if (r.l === null || r.d > VM.limit*0.75) return;
+  if (mic && mic.det.skipRest) mic.det.skipRest();
+  heard(`Oído: ${ES[r.l]}`);
+  ACTIVE.answer(r.l);
+}
 function onGameSegment(feat, info){
   if (!ACTIVE || !ACTIVE.running()) return;
   const segStart = performance.now() - info.dur - 120;
@@ -1745,7 +1977,7 @@ async function startVoice(){
   if (!HAS_MIC || !VM){ setMic(false, "Voz no disponible"); return; }
   voiceOn = true; setMic(true, "Activando…");
   try {
-    await micStart(onGameSegment, null);
+    await micStart(onGameSegment, null, onGamePartial);
     if (!ACTIVE || !ACTIVE.running()){ micStop(); voiceOn = false; return; }
     setMic(true);
   } catch(e){ voiceOn = false; setMic(false, "Micrófono bloqueado"); heard(micError(e), "unsure"); }
@@ -1888,9 +2120,10 @@ $("trPopoutBtn").addEventListener("click", () => openOutside($("trPopoutUrl")));
 function renderHome(){
   const tab = store.tab;
   document.querySelectorAll(".nav button").forEach(b => b.setAttribute("aria-current", b.dataset.tab === tab ? "page" : "false"));
-  ["mapa","arcade","teoria","perfil"].forEach(t => $(`panel-${t}`).hidden = t !== tab);
+  ["mapa","arcade","partituras","teoria","perfil"].forEach(t => $(`panel-${t}`).hidden = t !== tab);
   $("hud").hidden = tab !== "mapa";
   if (tab === "mapa") renderMap();
+  else if (tab === "partituras") renderScores();
   else if (tab === "teoria") renderTheory();
   else if (tab === "perfil") renderProfile();
   else {
@@ -1919,7 +2152,7 @@ function stopAll(){
 /* ---------- Jefe y «Al compás» ---------- */
 let SG = null;
 function genTempoNotes(n){
-  const p = nodeParams(n), L = learnedUpTo(n.ch);
+  const p = nodeParams(n), L = n.camp === "piano" ? learnedUpToPiano(n.ch) : learnedUpTo(n.ch);
   const clefs = Object.keys(L).filter(k => L[k].length);
   const out = []; let t = 0, clef = rndOf(clefs), d = rndOf(L[clef]);
   for (let i = 0; i < p.count; i++){
@@ -1931,15 +2164,17 @@ function genTempoNotes(n){
 }
 function openSong(i, mode, node){
   stopAll();
-  const c = STORY[i];
   node = node || chapterNodes(i).slice(-1)[0];
-  SG = { i, node, kind:"jefe", notes: parseSong(c.song.notes), bpm: c.song.bpm, running:false, mode:null, status:[], cur:0 };
-  $("sgTitle").textContent = "Jefe final";
-  $("sgKicker").textContent = `Capítulo ${i+1} · ${c.zone}`;
+  const piano = node.camp === "piano";
+  const c = chapterOf(node);
+  SG = { i, node, kind:"jefe", piano, notes: parseSong(c.song.notes), bpm: c.song.bpm, running:false, mode:null, status:[], cur:0 };
+  $("sgTitle").textContent = piano ? "Recital" : "Jefe final";
+  $("sgKicker").textContent = `${piano ? "Piano" : "Solfeo"} · capítulo ${i+1} · ${c.zone}`;
   $("sgName").textContent = c.song.name;
-  $("sgInfo").innerHTML = `${c.song.origin} · ${SG.notes.length} notas · ${c.song.bpm} pulsos por minuto.<br>Nombra cada nota antes de que cruce la línea. <b>Un solo fallo y el jefe gana.</b>`;
+  $("sgInfo").innerHTML = `${c.song.origin} · ${SG.notes.length} notas · ${c.song.bpm} pulsos por minuto.<br>${piano ? "<b>Toca</b> cada nota en el teclado antes de que cruce la línea." : "Nombra cada nota antes de que cruce la línea."} <b>Un solo fallo y se acaba.</b>`;
   $("sgListen").hidden = false; $("sgPractice").hidden = false;
-  $("sgBoss").textContent = "¡Luchar!"; $("sgBoss").className = "btn btn-coral big";
+  $("sgBoss").textContent = piano ? "¡Tocar!" : "¡Luchar!"; $("sgBoss").className = "btn btn-coral big";
+  $("sgPiano").hidden = true;
   $("sgHud").hidden = true;
   songCommon();
   if (mode) songStart(mode);
@@ -1947,20 +2182,36 @@ function openSong(i, mode, node){
 function openTempo(node){
   stopAll();
   const p = nodeParams(node);
-  SG = { i:node.ch, node, kind:"tempo", notes: genTempoNotes(node), bpm:p.bpm, lives:p.lives, running:false, mode:null, status:[], cur:0 };
+  const piano = node.camp === "piano";
+  SG = { i:node.ch, node, kind:"tempo", piano, notes: genTempoNotes(node), bpm:p.bpm, lives:p.lives, running:false, mode:null, status:[], cur:0 };
   $("sgTitle").textContent = "Al compás";
   $("sgKicker").textContent = `Capítulo ${node.ch+1} · reto de ritmo`;
   $("sgName").textContent = "Al compás";
-  $("sgInfo").innerHTML = `${p.count} notas a <b>${p.bpm} pulsos por minuto</b>. Tras cuatro clics, las notas llegan a tempo: nómbralas antes de que crucen la línea. Tienes <b>3 vidas</b>.`;
-  $("sgListen").hidden = true; $("sgPractice").hidden = true;
+  $("sgInfo").innerHTML = `${p.count} notas a <b>${p.bpm} pulsos por minuto</b>. Tras cuatro clics, las notas llegan a tempo: ${piano ? "tócalas en el teclado" : "nómbralas"} antes de que crucen la línea. Tienes <b>3 vidas</b>.`;
+  $("sgListen").hidden = true; $("sgPractice").hidden = true; $("sgPiano").hidden = true;
   $("sgBoss").textContent = "¡Empezar!"; $("sgBoss").className = "btn btn-violet big";
+  songCommon();
+}
+function openScore(sc){
+  stopAll();
+  SG = { sc, node:null, kind:"score", piano:false, notes: scoreNotes(sc), bpm: sc.bpm, running:false, mode:null, status:[], cur:0, i:0 };
+  $("sgTitle").textContent = "Partitura";
+  $("sgKicker").textContent = `${"★".repeat(sc.level)} · ${sc.origin}`;
+  $("sgName").textContent = sc.name;
+  const best = store.scores?.[sc.id];
+  $("sgInfo").innerHTML = `${SG.notes.length} notas · ${sc.bpm} pulsos por minuto.${sc.mood ? ` <i>${sc.mood}</i>` : ""}${best ? `<br>Tu mejor resultado: ${"★".repeat(best.stars)}${"☆".repeat(3-best.stars)} (${best.errors} ${best.errors === 1 ? "fallo" : "fallos"}).` : ""}<br>Aquí no se pierde: cuenta los fallos y saca las tres estrellas.`;
+  $("sgListen").hidden = false; $("sgPractice").hidden = false; $("sgPiano").hidden = false;
+  $("sgBoss").textContent = "Solfear a tempo"; $("sgBoss").className = "btn btn-gold big";
+  $("sgHud").hidden = true;
   songCommon();
 }
 function songCommon(){
   $("sgOverlay").hidden = true; $("sgIntro").hidden = false; $("sgAnswers").hidden = true;
   $("sgStatus").textContent = "";
   const n = SG.node;
-  mountVoice($("sgVoiceSlot"), () => SG.kind === "jefe" ? openSong(n.ch, null, n) : openTempo(n));
+  const back = SG.kind === "score" ? (() => openScore(SG.sc)) : SG.kind === "jefe" ? (() => openSong(n.ch, null, n)) : (() => openTempo(n));
+  mountVoice($("sgVoiceSlot"), back);
+  $("sgVoiceSlot").hidden = !!SG.piano;
   mountMic($("sgStage"));
   paint($("songStaff"), songSVG());
   SG.beat = -1.5; drawSong(SG.kind === "jefe");
@@ -1979,15 +2230,21 @@ function sgHud(){
 }
 const SONG_INPUT = { answer:l => songAnswer(l), running:() => !!(SG && SG.running && SG.mode !== "listen"), busy:() => false, readyAt:() => 0, acc:() => false, setAcc:() => {} };
 function songStart(mode){
-  if (store.settings.voice && store.settings.engine === "propia" && !VM && mode !== "listen"){ const n = SG.node, k = SG.kind; openTraining(() => k === "jefe" ? openSong(n.ch, null, n) : openTempo(n)); return; }
+  if (store.settings.voice && !SG.piano && mode !== "piano" && store.settings.engine === "propia" && !VM && mode !== "listen"){ const n = SG.node, k = SG.kind, sc = SG.sc; openTraining(() => k === "score" ? openScore(sc) : k === "jefe" ? openSong(n.ch, null, n) : openTempo(n)); return; }
   if (SG.kind === "tempo"){ SG.notes = genTempoNotes(SG.node); SG.lives = nodeParams(SG.node).lives; }
   Object.assign(SG, { mode, status:[], cur:0, errors:0, running:true, beat: mode === "listen" ? -1 : -4, last: performance.now(), lastWhole: -99, played:-1, misses:0, streak:0 });
   $("sgIntro").hidden = true; $("sgOverlay").hidden = true;
   $("sgAnswers").hidden = mode === "listen";
-  $("sgMode").textContent = SG.kind === "tempo" ? `${SG.bpm} ppm` : mode === "boss" ? "¡Combate!" : mode === "practice" ? "Práctica" : "Escuchar";
+  SG.input = (SG.piano || mode === "piano") ? "piano" : "botones";
+  if (mode !== "listen"){
+    const notes = { sol:[], fa:[] };
+    SG.notes.forEach(n => notes[n.clef].push(n.d));
+    setAnswerMode("song", SG.input, notes, songAnswer);
+  }
+  $("sgMode").textContent = SG.kind === "tempo" ? `${SG.bpm} ppm` : mode === "listen" ? "Escuchar" : mode === "practice" ? "Práctica" : mode === "piano" ? "Al teclado" : SG.kind === "score" ? "A tempo" : "¡Combate!";
   tone(0.0001);
   ACTIVE = SONG_INPUT;
-  if (store.settings.voice && mode !== "listen") startVoice();
+  if (store.settings.voice && mode !== "listen" && SG.input !== "piano") startVoice();
   sgHud();
   drawSong(mode === "listen");
   requestAnimationFrame(songLoop);
@@ -2015,11 +2272,12 @@ function songLoop(){
       drawSong(true);
     }
   }
-  if ((SG.mode === "boss" || SG.kind === "tempo") && SG.mode !== "listen" && SG.cur < N.length){
+  if ((SG.mode === "boss" || SG.mode === "piano" || SG.mode === "score" || SG.kind === "tempo") && SG.mode !== "listen" && SG.mode !== "practice" && SG.cur < N.length){
     const n = N[SG.cur], grace = Math.max(0.35, Math.min(1, n.beats*0.6));
     if (SG.beat > n.t + grace){
       recordAnswer(n.clef, n.d, false, 0, 0);
-      if (SG.kind === "tempo"){ tempoMiss("tarde"); if (!SG.running) return; }
+      if (SG.kind === "score"){ scoreMiss(false); }
+      else if (SG.kind === "tempo"){ tempoMiss("tarde"); if (!SG.running) return; }
       else { SG.status[SG.cur] = "bad"; drawSong(false); return songLose("tarde"); }
     }
   }
@@ -2027,6 +2285,14 @@ function songLoop(){
   const doneAll = SG.mode === "listen" ? SG.played >= N.length-1 : SG.cur >= N.length;
   if (doneAll && SG.beat > last.t + last.beats + 0.4) return songWin();
   requestAnimationFrame(songLoop);
+}
+function scoreMiss(wrong){
+  const n = SG.notes[SG.cur];
+  SG.status[SG.cur] = "bad"; SG.errors++; SG.cur++; SG.streak = 0;
+  flashIn("sgStage", "bad", 260);
+  $("sgStatus").className = "feedback bad";
+  $("sgStatus").textContent = `${wrong ? "Era" : "Se escapó"} ${nameOf(n.d, n.acc, store.settings.octave)}`;
+  sgHud(); drawSong(false);
 }
 function tempoMiss(reason, l){
   const n = SG.notes[SG.cur];
@@ -2037,25 +2303,32 @@ function tempoMiss(reason, l){
   sgHud(); drawSong(false);
   if (SG.lives <= 0) songLose(reason, l, n);
 }
-function songAnswer(l){
+function songAnswer(ans){
   if (!SG || !SG.running || SG.mode === "listen") return;
   const n = SG.notes[SG.cur];
   if (!n || n.t - SG.beat > 5) return;
-  if (l === n.d % 7){
+  const piano = typeof ans === "object";
+  const l = piano ? -1 : ans;
+  const ok = piano ? ans.midi === noteMidi(n) : l === n.d % 7;
+  if (ok){
     SG.status[SG.cur] = "ok"; SG.cur++; SG.misses = 0; SG.streak++;
     recordAnswer(n.clef, n.d, true, 0, SG.streak);
     tone(freqOf(n.d, n.acc), Math.min(1.4, n.beats*60/SG.bpm + 0.25));
     flashIn("sgStage", "ok", 160);
     $("sgStatus").className = "feedback ok";
     $("sgStatus").textContent = SG.cur === SG.notes.length ? "¡Última!" : SG.streak >= 5 && SG.streak % 5 === 0 ? `${rndOf(CHEERS)} x${SG.streak}` : nameOf(n.d, n.acc, false);
+    if (piano) markKey($("kbSong"), ans.midi, "ok");
     sgHud(); drawSong(false);
   } else if (SG.mode === "practice"){
     SG.errors++; SG.misses++;
     flashIn("sgStage", "bad", 300);
     $("sgStatus").className = "feedback bad";
-    $("sgStatus").textContent = SG.misses >= 2 ? `Pista: es ${nameOf(n.d, n.acc, store.settings.octave)}` : `No es ${ES[l]}. ${rndOf(TAUNTS)}`;
+    if (piano) markKey($("kbSong"), ans.midi, "bad");
+    $("sgStatus").textContent = SG.misses >= 2 ? `Pista: es ${nameOf(n.d, n.acc, store.settings.octave)}` : `Esa no. ${rndOf(TAUNTS)}`;
   } else {
     recordAnswer(n.clef, n.d, false, 0, 0);
+    if (piano) markKey($("kbSong"), ans.midi, "bad");
+    if (SG.kind === "score") return scoreMiss(true);
     if (SG.kind === "tempo") return tempoMiss("nota", l);
     SG.status[SG.cur] = "bad"; drawSong(false);
     songLose("nota", l);
@@ -2076,12 +2349,22 @@ function songLose(reason, l, missed){
 function songWin(){
   SG.running = false; stopVoice(); ACTIVE = null; save();
   $("sgAnswers").hidden = true; $("sgHud").hidden = true;
-  const c = STORY[SG.i];
+  const c = SG.node ? chapterOf(SG.node) : STORY[SG.i];
   if (SG.mode === "listen"){ $("sgIntro").hidden = false; $("sgStatus").textContent = ""; SG.status = []; SG.beat = -1.5; drawSong(true); return; }
   if (SG.mode === "practice"){
     showSongOverlay(SG.errors ? "Práctica terminada" : "¡Práctica perfecta!",
       SG.errors ? `Has tenido ${SG.errors} ${SG.errors === 1 ? "fallo" : "fallos"}. El jefe no perdona ni uno: practica hasta hacerla limpia.` : "Sin fallos. El jefe ya te está mirando con respeto.",
       [["¡Luchar!", "btn btn-coral", () => songStart("boss")], ["Practicar otra vez", "btn btn-ghost", () => songStart("practice")], ["Volver al mapa", "btn btn-ghost", leave]]);
+    return;
+  }
+  if (SG.kind === "score"){
+    const stars = SG.errors === 0 ? 3 : SG.errors <= 2 ? 2 : SG.errors <= 5 ? 1 : 0;
+    const prev = store.scores[SG.sc.id];
+    if (!prev || stars > prev.stars) store.scores[SG.sc.id] = { stars, errors:SG.errors };
+    save(); checkAchievements();
+    showSongOverlay(stars === 3 ? "¡Interpretación perfecta!" : stars ? "¡Bien tocada!" : "Sigue ensayando",
+      `${"★".repeat(stars)}${"☆".repeat(3-stars)}<br>${SG.errors ? `${SG.errors} ${SG.errors === 1 ? "fallo" : "fallos"}.` : "Ni un fallo."}`,
+      [["Otra vez", "btn btn-gold", () => songStart(SG.mode)], ["Volver a las partituras", "btn btn-ghost", () => { store.tab = "partituras"; save(); leave(); }]], stars >= 2);
     return;
   }
   if (SG.kind === "tempo"){
@@ -2094,9 +2377,10 @@ function songWin(){
   }
   const first = !nodeDone(SG.node.id);
   const xp = completeNode(SG.node, 3);
-  const nextI = SG.i + 1 < STORY.length ? SG.i + 1 : null;
+  const camp = SG.node ? campOf(SG.node) : CAMPAIGNS[0];
+  const nextI = SG.i + 1 < camp.chapters.length ? SG.i + 1 : null;
   showSongOverlay(first ? `¡Has ascendido a ${c.rank}!` : "¡Jefe vencido otra vez!",
-    `${xp ? `+${xp} XP. ` : ""}${SG.i === STORY.length-1 ? "El pentagrama tiene nuevo señor. Ahora demuéstralo en el arcade." : "Nuevas tierras te esperan en el mapa."}<br><br><i>«${c.quote[0]}»</i> — ${c.quote[1]}`,
+    `${xp ? `+${xp} XP. ` : ""}${nextI == null ? "Campaña completada. Ahora demuéstralo en el arcade o en las partituras." : "Nuevas tierras te esperan en el mapa."}<br><br><i>«${c.quote[0]}»</i> — ${c.quote[1]}`,
     [[nextI != null ? "Continuar al capítulo " + (nextI+1) : "Ir al arcade", "btn btn-gold", () => { if (nextI == null){ store.tab = "arcade"; save(); } leave(); }]], true);
 }
 function showSongOverlay(title, html, buttons, win){
@@ -2114,8 +2398,9 @@ function flashIn(id, cls, ms){
 }
 $("sgListen").addEventListener("click", () => songStart("listen"));
 $("sgPractice").addEventListener("click", () => songStart("practice"));
-$("sgBoss").addEventListener("click", () => songStart(SG.kind === "tempo" ? "tempo" : "boss"));
-$("sgBack").addEventListener("click", leave);
+$("sgBoss").addEventListener("click", () => songStart(SG.kind === "tempo" ? "tempo" : SG.kind === "score" ? "score" : "boss"));
+$("sgPiano").addEventListener("click", () => songStart("piano"));
+$("sgBack").addEventListener("click", () => { if (SG && SG.kind === "score"){ store.tab = "partituras"; save(); } leave(); });
 $("sgBtns").addEventListener("click", e => { const b = e.target.closest("button[data-l]"); if (b) songAnswer(+b.dataset.l); });
 /* ---------- Arcade: rango de notas ---------- */
 const RANGE_ALL = { sol:[parse("G3").d, parse("D6").d], fa:[parse("B1").d, parse("F4").d] };
@@ -2190,6 +2475,8 @@ function openArcade(){
   initRange();
   $("arScore").textContent = "0"; $("arLives").textContent = "♥♥♥"; $("arWave").textContent = "Oleada 1"; $("arCombo").textContent = "";
   mountVoice($("arVoiceSlot"), openArcade);
+  document.querySelectorAll("#arInput button").forEach(b => b.setAttribute("aria-pressed", b.dataset.in === (store.settings.arcadeInput || "botones")));
+  $("arVoiceSlot").hidden = store.settings.arcadeInput === "piano";
   mountMic($("arStage"));
   paint($("arStaff"), arcadeBase());
   show("arcade");
@@ -2208,11 +2495,14 @@ function arcStart(){
   const figs = figsUpTo(idx).filter(k => FIG_SPECS[k].n === 1);
   const pool = rangePool();
   if (!pool.length) return;
-  AR = { pool, figs: figs.length ? figs : ["negra"], enemies:[], booms:[], score:0, lives:3, combo:0, wave:1, kills:0, speed:22, interval:2.8, spawnT:0.2, running:true, last:performance.now(), lastKey:"" };
+  const input = store.settings.arcadeInput || "botones";
+  const kbNotes = { sol:[], fa:[] }; pool.forEach(p => kbNotes[p.clef].push(p.d));
+  setAnswerMode("arc", input, kbNotes, arcAnswer);
+  AR = { pool, input, figs: figs.length ? figs : ["negra"], enemies:[], booms:[], score:0, lives:3, combo:0, wave:1, kills:0, speed:22, interval:2.8, spawnT:0.2, running:true, last:performance.now(), lastKey:"" };
   $("arIntro").hidden = true; $("arOver").hidden = true; $("arAnswers").hidden = false;
   tone(0.0001);
   ACTIVE = ARC_INPUT;
-  if (store.settings.voice) startVoice();
+  if (store.settings.voice && input !== "piano") startVoice();
   arHud();
   requestAnimationFrame(arcLoop);
 }
@@ -2250,10 +2540,14 @@ function arcLoop(){
   requestAnimationFrame(arcLoop);
 }
 const arTarget = () => AR.enemies.reduce((a, b) => (!a || b.x < a.x) ? b : a, null);
-function arcAnswer(l){
+function arcAnswer(ans){
   if (!AR || !AR.running) return;
   const t = arTarget(); if (!t) return;
-  if (l === t.d % 7){
+  const piano = typeof ans === "object";
+  const l = piano ? -1 : ans;
+  const ok = piano ? ans.midi === midiOf(t.d, 0) : l === t.d % 7;
+  if (piano) markKey($("kbArc"), ans.midi, ok ? "ok" : "bad");
+  if (ok){
     AR.combo++; recordAnswer(t.clef, t.d, true, 0, AR.combo); const mult = 1 + Math.floor(AR.combo/5), pts = 10*mult;
     AR.score += pts; AR.kills++;
     AR.booms.push({ x:t.x, y: yOf(t.clef) - (t.d - BOTTOM[t.clef])*S/2, age:0, pts });
@@ -2267,7 +2561,7 @@ function arcAnswer(l){
   } else {
     recordAnswer(t.clef, t.d, false, 0, 0); AR.combo = 0; t.x = Math.max(ARC_LINE + 4, t.x - 28);
     flashIn("arStage", "bad", 250);
-    heard(`No era ${ES[l]}`, "unsure");
+    heard(piano ? "Esa tecla no" : `No era ${ES[l]}`, "unsure");
   }
   arHud();
 }
@@ -2292,7 +2586,8 @@ $("arPlay").addEventListener("click", arcStart);
 $("arAgain").addEventListener("click", arcStart);
 $("arBack").addEventListener("click", leave);
 $("arExit").addEventListener("click", leave);
-$("arBtns").addEventListener("click", e => { const b = e.target.closest("button[data-l]"); if (b) arcAnswer(+b.dataset.l); });
+$("arcBtns").addEventListener("click", e => { const b = e.target.closest("button[data-l]"); if (b) arcAnswer(+b.dataset.l); });
+$("arInput").addEventListener("click", e => { const b = e.target.closest("button[data-in]"); if (!b) return; store.settings.arcadeInput = b.dataset.in; save(); openArcade(); });
 
 
 /* ---------- Teoría ---------- */
@@ -2457,8 +2752,184 @@ $("theoryBody").addEventListener("click", e => { const b = e.target.closest("but
 $("lessonBody").addEventListener("click", e => { const b = e.target.closest("button[data-lesson]"); if (b) openLesson(b.dataset.lesson); });
 $("lsBack").addEventListener("click", () => { const f = LESSON_BACK; LESSON_BACK = null; (f || leave)(); });
 
+/* ---------- Teclado de piano en pantalla ---------- */
+const midiOf = (d, acc) => 12*(Math.floor(d/7)+1) + SEMI[d%7] + (acc||0);
+const cBelow = d => d - ((d % 7) + 7) % 7;
+const bAbove = d => d + (6 - d % 7);
+function keyRange(notes){
+  const all = [...(notes.sol||[]), ...(notes.fa||[])];
+  if (!all.length) return [parse("C4").d, parse("B4").d];
+  let lo = cBelow(Math.min(...all)), hi = bAbove(Math.max(...all));
+  while (hi - lo < 9) hi += 7;                       // al menos una octava y media
+  if (hi - lo > 27){ hi = lo + 27; }                 // como mucho cuatro octavas
+  return [lo, hi];
+}
+function pianoHTML(lo, hi, opts={}){
+  const whites = [];
+  for (let d = lo; d <= hi; d++) whites.push(d);
+  const wideLabels = opts.labels === "all";
+  let html = `<div class="kb-inner" style="--kn:${whites.length}">`;
+  whites.forEach((d, i) => {
+    const name = nameOf(d, 0, true);
+    const isC = d % 7 === 0;
+    html += `<button class="kb-w${isC ? " kb-c" : ""}" data-midi="${midiOf(d,0)}" data-name="${name}" style="--i:${i}" aria-label="${name}">${wideLabels || isC ? `<span>${name}</span>` : ""}</button>`;
+  });
+  whites.forEach((d, i) => {
+    const l = d % 7;
+    if (l === 2 || l === 6 || d === hi) return;      // no hay negra tras Mi ni tras Si
+    const nm = `${ES[l]}♯ / ${ES[(l+1)%7]}♭`;
+    html += `<button class="kb-b" data-midi="${midiOf(d,1)}" data-name="${nm}" style="--i:${i}" aria-label="${nm}"></button>`;
+  });
+  return html + "</div>";
+}
+function mountPiano(el, notes, onPress, opts){
+  const [lo, hi] = keyRange(notes);
+  el.innerHTML = pianoHTML(lo, hi, { labels: store.settings.keyNames ? "all" : "do", ...(opts||{}) });
+  el.classList.toggle("kb-wide", hi - lo > 16);
+  el.onpointerdown = e => {
+    const k = e.target.closest("button[data-midi]"); if (!k) return;
+    e.preventDefault();
+    k.classList.add("down"); setTimeout(() => k.classList.remove("down"), 140);
+    onPress(+k.dataset.midi, k);
+  };
+  return { lo, hi };
+}
+function markKey(el, midi, cls){
+  const k = el.querySelector(`[data-midi="${midi}"]`);
+  if (!k) return;
+  k.classList.add(cls);
+  setTimeout(() => k.classList.remove(cls), 700);
+}
+const freqOfMidi = m => 440*Math.pow(2, (m-69)/12);
+
+/* ---------- Diagrama de teclado para la teoría ---------- */
+function fingerBoardSVG(lo, hi, marks){
+  // marks: { midi: {finger, hand} }
+  const whites = []; for (let d = parse(lo).d; d <= parse(hi).d; d++) whites.push(d);
+  const kw = Math.min(30, 330/whites.length), W = kw*whites.length + 10, H = 132;
+  let s = "";
+  whites.forEach((d, i) => {
+    const x = 5 + i*kw, m = marks[midiOf(d,0)];
+    s += `<rect x="${x}" y="4" width="${kw-1}" height="${H-30}" rx="4" fill="${m ? (m.hand === "izq" ? "#CDE4FF" : "#FFE6C2") : "#FFFDF6"}" stroke="#3B2A1A" stroke-width="1.6"/>`;
+    s += `<text x="${x+kw/2}" y="${H-16}" text-anchor="middle" font-size="9.5" font-weight="700" font-family="Nunito, sans-serif" fill="#5B4430">${nameOf(d,0,true)}</text>`;
+    if (m) s += `<circle cx="${x+kw/2}" cy="${H-46}" r="9" fill="${m.hand === "izq" ? "#1B7FCB" : "#CF621A"}"/><text x="${x+kw/2}" y="${H-42}" text-anchor="middle" font-size="11" font-weight="800" font-family="Nunito, sans-serif" fill="#fff">${m.finger}</text>`;
+  });
+  whites.forEach((d, i) => {
+    const l = d % 7; if (l === 2 || l === 6 || i === whites.length-1) return;
+    const x = 5 + (i+1)*kw - kw*0.3, m = marks[midiOf(d,1)];
+    s += `<rect x="${x}" y="4" width="${kw*0.6}" height="${(H-30)*0.62}" rx="3" fill="${m ? "#9277FF" : "#2A2140"}" stroke="#3B2A1A" stroke-width="1.4"/>`;
+  });
+  return { vb:`0 0 ${W} ${H}`, html:s };
+}
+function pianoLessonSVG(ch){
+  const marks = {};
+  const right = { 0:1, 1:2, 2:3, 3:4, 4:5 };
+  if (ch >= 0 && PIANO[ch].hand !== "izquierda"){
+    const R = learnedUpToPiano(ch).sol;
+    R.forEach(d => { const f = right[(d - parse("C4").d)]; if (f) marks[midiOf(d,0)] = { finger:f, hand:"der" }; });
+  }
+  if (PIANO[ch].hand !== "derecha"){
+    const L = learnedUpToPiano(ch).fa;
+    L.forEach(d => { const f = parse("C4").d - d + 1; if (f >= 1 && f <= 5) marks[midiOf(d,0)] = { finger:f, hand:"izq" }; });
+  }
+  return fingerBoardSVG("C3", "B4", marks);
+}
+
+/* ---------- Niveles de piano ---------- */
+function pianoNotesFor(n){
+  const L = n.camp === "piano" ? learnedUpToPiano(n.ch) : learnedUpTo(n.ch);
+  const notes = {};
+  if (L.sol && L.sol.length) notes.sol = L.sol;
+  if (L.fa && L.fa.length) notes.fa = L.fa;
+  return { notes, accs: L.accs || [] };
+}
+function pianoFigs(ch){ const out = []; for (let i = 0; i <= ch; i++) out.push(...PIANO[i].figs); return out.length ? out : ["negra"]; }
+function openScrollPiano(n){
+  stopAll();
+  const c = PIANO[n.ch];
+  $("chTitle").textContent = `Piano · capítulo ${n.ch+1}`;
+  const board = pianoLessonSVG(n.ch);
+  const lessons = THEORY.filter(l => l.ch === Math.min(n.ch, STORY.length-1) && l.cat === "Lectura").slice(0, 2);
+  $("chapterBody").innerHTML = `
+    <div class="scroll-hero t-parch"><span class="eyebrow">Piano · capítulo ${n.ch+1} · ${c.rank}</span><h2>${c.zone}</h2></div>
+    <figure class="card staff-card"><svg id="chBoard" role="img" aria-label="Teclado con los dedos"></svg><figcaption>Dedos: <span class="fing der">naranja</span> mano derecha · <span class="fing izq">azul</span> mano izquierda</figcaption></figure>
+    <div class="card speech"><div class="avatar" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M6 33c6-2 22-2 28 0l-3 3H9z" fill="#6146D6"/><path d="M11 32 19 4c1-2 3-2 4 0l2 9-4 1 6 3-2 4 5 11z" fill="#8C6CFF"/><circle cx="24" cy="22" r="1.6" fill="#FFC23C"/><circle cx="18" cy="15" r="1.2" fill="#FFC23C"/></svg></div><div><p class="speaker">Maese Clavius</p><p>${c.story}</p></div></div>
+    ${c.add.length ? `<figure class="card staff-card"><svg id="chStaff" role="img" aria-label="Notas nuevas"></svg><figcaption>Así se escriben esas teclas</figcaption></figure>` : ""}
+    <blockquote class="quote"><p>«${c.quote[0]}»</p><cite>— ${c.quote[1]}</cite></blockquote>
+    ${lessons.length ? `<div class="t-links"><p class="section-label">Teoría relacionada</p>${lessons.map(l => `<button class="btn btn-ghost" data-lesson="${l.id}">${l.title}</button>`).join("")}</div>` : ""}
+    <button class="btn btn-gold big" id="scrollDone">${nodeDone(n.id) ? "Volver al mapa" : `¡Entendido! +${NODE_TYPES.pLectura.xp} XP`}</button>`;
+  paint($("chBoard"), board);
+  if (c.add.length) paint($("chStaff"), grandNotesSVG(c.add.map(pNote)));
+  $("chapterBody").onclick = e => {
+    const l = e.target.closest("button[data-lesson]"); if (l) return openLesson(l.dataset.lesson, () => openScrollPiano(n));
+    if (e.target.closest("#scrollDone")){ if (!nodeDone(n.id)){ const xp = completeNode(n, 3); toast("Lección aprendida", `+${xp} XP`, "✓"); } leave(); }
+  };
+  show("chapter");
+  $("chapter").scrollTop = 0;
+}
+
+/* ---------- Zona de respuesta: botones o teclado ---------- */
+const ANSWER_AREAS = { play:["noteBtns","kbPlay"], song:["sgBtns","kbSong"], arc:["arcBtns","kbArc"] };
+function setAnswerMode(scope, input, notes, onAnswer){
+  const [btnsId, kbId] = ANSWER_AREAS[scope];
+  const piano = input === "piano";
+  $(btnsId).hidden = piano;
+  $(kbId).hidden = !piano;
+  if (piano) mountPiano($(kbId), notes, midi => onAnswer({ midi }));
+}
+function noteMidi(n){ return midiOf(n.d, n.acc || 0); }
+/* ---------- Partituras ---------- */
+// Todas de dominio público. Arreglos simplificados a una voz.
+const SCORES = [
+  { id:"sc-estrellita", name:"Estrellita, ¿dónde estás?", origin:"Melodía tradicional francesa, s. XVIII", level:1, bpm:72, minCh:4,
+    notes:"s:C4:1 s:C4:1 s:G4:1 s:G4:1 s:A4:1 s:A4:1 s:G4:2 s:F4:1 s:F4:1 s:E4:1 s:E4:1 s:D4:1 s:D4:1 s:C4:2" },
+  { id:"sc-cumple", name:"Cumpleaños feliz", origin:"Melodía tradicional («Good Morning to All», 1893)", level:1, bpm:80, minCh:5,
+    notes:"s:G4:0.5 s:G4:0.5 s:A4:1 s:G4:1 s:C5:1 s:B4:2 s:G4:0.5 s:G4:0.5 s:A4:1 s:G4:1 s:D5:1 s:C5:2" },
+  { id:"sc-cucaracha", name:"La cucaracha", origin:"Corrido tradicional mexicano", level:2, bpm:104, minCh:3,
+    notes:"s:C4:0.5 s:C4:0.5 s:C4:1 s:F4:1 s:A4:2 s:C4:0.5 s:C4:0.5 s:C4:1 s:F4:1 s:A4:2 s:F4:0.5 s:F4:0.5 s:E4:0.5 s:E4:0.5 s:D4:0.5 s:D4:0.5 s:C4:2" },
+  { id:"sc-alegria", name:"Himno de la alegría", origin:"Ludwig van Beethoven, Novena Sinfonía, 1824", level:2, bpm:84, minCh:3,
+    notes:"s:E4:1 s:E4:1 s:F4:1 s:G4:1 s:G4:1 s:F4:1 s:E4:1 s:D4:1 s:C4:1 s:C4:1 s:D4:1 s:E4:1 s:E4:1.5 s:D4:0.5 s:D4:2" },
+  { id:"sc-cascabeles", name:"Cascabeles", origin:"James Lord Pierpont, 1857", level:2, bpm:96, minCh:8,
+    notes:"s:E5:1 s:E5:1 s:E5:2 s:E5:1 s:E5:1 s:E5:2 s:E5:1 s:G5:1 s:C5:1 s:D5:1 s:E5:4" },
+  { id:"sc-funebre", name:"Marcha fúnebre", origin:"Frédéric Chopin, Sonata nº 2, 1839 · simplificada", level:3, bpm:54, minCh:5, mood:"Dramática. Ideal para anunciar desgracias.",
+    notes:"s:A4:1.5 s:A4:0.5 s:A4:1 s:A4:1 s:C5:1.5 s:B4:0.5 s:B4:1 s:A4:1 s:A4:1.5 s:G4:0.5 s:G4:1 s:A4:1 s:A4:4" },
+  { id:"sc-greensleeves", name:"Greensleeves", origin:"Tradicional inglesa, s. XVI", level:3, bpm:88, minCh:6,
+    notes:"s:A4:1 s:C5:1 s:D5:1 s:E5:1.5 s:F5:0.5 s:E5:1 s:D5:1 s:B4:1.5 s:G4:0.5 s:A4:1 s:B4:1 s:C5:1 s:A4:2 s:A4:1 s:G4:0.5 s:A4:0.5 s:B4:1 s:G4:1 s:E4:2" },
+  { id:"sc-montana", name:"En la cueva del rey de la montaña", origin:"Edvard Grieg, 1875 · fragmento simplificado", level:3, bpm:92, minCh:6, mood:"Empieza de puntillas y acaba en estampida.",
+    notes:"s:A4:0.5 s:B4:0.5 s:C5:0.5 s:D5:0.5 s:E5:0.5 s:C5:0.5 s:E5:1 s:D5:0.5 s:B4:0.5 s:D5:1 s:A4:0.5 s:B4:0.5 s:C5:0.5 s:D5:0.5 s:E5:0.5 s:C5:0.5 s:E5:1 s:F5:0.5 s:E5:0.5 s:C5:0.5 s:E5:0.5 s:A4:2" },
+  { id:"sc-elisa", name:"Para Elisa", origin:"Ludwig van Beethoven, 1810", level:4, bpm:76, minCh:8, accidentals:true,
+    notes:"s:E5:0.5 s:D#5:0.5 s:E5:0.5 s:D#5:0.5 s:E5:0.5 s:B4:0.5 s:D5:0.5 s:C5:0.5 s:A4:1 f:A2:0.5 f:E3:0.5 f:A3:0.5 s:C4:0.5 s:E4:0.5 s:A4:0.5 s:B4:2" },
+  { id:"sc-turca", name:"Marcha turca", origin:"W. A. Mozart, Sonata K. 331, 1783 · fragmento", level:5, bpm:100, minCh:8, accidentals:true,
+    notes:"s:B4:0.5 s:A4:0.5 s:G#4:0.5 s:A4:0.5 s:C5:2 s:D5:0.5 s:C5:0.5 s:B4:0.5 s:C5:0.5 s:E5:2 s:F5:0.5 s:E5:0.5 s:D#5:0.5 s:E5:0.5 s:B5:1 s:A5:0.5 s:G#5:0.5 s:A5:2" },
+];
+const scoreNotes = sc => parseSong(sc.notes);
+function scoreOpen(sc){
+  if (store.settings.unlock) return true;
+  const f = frontier(CAMPAIGNS[0]);
+  const reached = f >= CAMPAIGNS[0].nodes.length ? STORY.length : NODES[Math.min(f, NODES.length-1)].ch + 1;
+  return reached >= sc.minCh;
+}
+function renderScores(){
+  const rows = SCORES.map(sc => {
+    const open = scoreOpen(sc), best = store.scores?.[sc.id];
+    const stars = best?.stars || 0;
+    return `<li><button class="game-card ${open ? "" : "locked"}" data-score="${sc.id}" ${open ? "" : "disabled"}>
+      <span class="gc-ic t-${["gold","mint","sky","violet","coral"][sc.level-1]}">${open ? ICONS.score : ICONS.lock}</span>
+      <span class="gc-txt"><b>${sc.name}</b><small>${open ? sc.origin + (sc.mood ? ` · <i>${sc.mood}</i>` : "") : `Se abre en el capítulo ${sc.minCh+1} de la historia`}</small></span>
+      <span class="gc-stars">${open ? [1,2,3].map(s => `<i class="${s <= stars ? "on" : ""}">★</i>`).join("") : ""}</span></button></li>`;
+  }).join("");
+  $("scoresBody").innerHTML = `
+    <div class="page-head"><h1>Partituras</h1><p>Piezas de dominio público para leer, solfear o tocar en el teclado. Se van abriendo según avanzas en la historia.</p></div>
+    <ol class="levels">${rows}</ol>
+    <p class="hint" style="margin-top:12px">Dificultad: ★ fácil · ★★★★★ para lucirse. Los arreglos son de una sola voz para poder solfearlos y tocarlos con una mano.</p>`;
+}
+$("scoresBody").addEventListener("click", e => {
+  const b = e.target.closest("button[data-score]"); if (!b || b.disabled) return;
+  openScore(SCORES.find(s => s.id === b.dataset.score));
+});
 /* ---------- Iconos ---------- */
 const ICONS = {
+  get pTeclas(){ return this.teclado; }, get pTempo(){ return this.tempo; }, get pQuiz(){ return this.quiz; }, get pJefe(){ return this.jefe; },
   lectura:`<svg viewBox="0 0 32 32"><path d="M8 6h13a3 3 0 0 1 3 3v17H11a3 3 0 0 1-3-3z" fill="currentColor" opacity=".25"/><path d="M8 6h13a3 3 0 0 1 3 3v17H11a3 3 0 0 1-3-3V6zm3 20a3 3 0 0 1-3-3m5-11h7m-7 4h7m-7 4h4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   entreno:`<svg viewBox="0 0 32 32"><ellipse cx="11" cy="23" rx="5" ry="3.8" transform="rotate(-20 11 23)" fill="currentColor"/><path d="M15.5 22V6l9 3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   claves:`<svg viewBox="0 0 32 32"><path d="M6 10h20M6 16h20M6 22h20" stroke="currentColor" stroke-width="2" opacity=".35"/><path d="M11 25c-3 0-4-4-1-6s5-5 3-10c-1-3-4-1-3 2l3 17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="22" cy="12" r="3" fill="currentColor"/><path d="M19 12c0 5-2 9-5 11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>`,
@@ -2469,6 +2940,9 @@ const ICONS = {
   lock:`<svg viewBox="0 0 32 32"><rect x="8" y="14" width="16" height="12" rx="3" fill="currentColor"/><path d="M11 14v-3a5 5 0 0 1 10 0v3" fill="none" stroke="currentColor" stroke-width="2.6"/></svg>`,
   check:`<svg viewBox="0 0 32 32"><path d="M8 17l5 5 11-12" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   skip:`<svg viewBox="0 0 32 32"><path d="M7 9l9 7-9 7zm9 0 9 7-9 7z" fill="currentColor"/></svg>`,
+  score:`<svg viewBox="0 0 32 32"><path d="M7 4h14l4 4v20H7z" fill="currentColor" opacity=".25"/><path d="M7 4h14l4 4v20H7zM21 4v4h4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><ellipse cx="13" cy="22" rx="3.4" ry="2.6" transform="rotate(-20 13 22)" fill="currentColor"/><path d="M16 21V11l5 2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>`,
+  teclado:`<svg viewBox="0 0 32 32"><rect x="3" y="8" width="26" height="17" rx="2.5" fill="currentColor" opacity=".25"/><rect x="3" y="8" width="26" height="17" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M10 8v11M16 8v11M22 8v11" stroke="currentColor" stroke-width="2"/><path d="M8 8h4v7H8zM20 8h4v7h-4z" fill="currentColor"/></svg>`,
+  pLectura:`<svg viewBox="0 0 32 32"><rect x="3" y="9" width="26" height="15" rx="2.5" fill="currentColor" opacity=".25"/><rect x="3" y="9" width="26" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M11 9v9M19 9v9" stroke="currentColor" stroke-width="2"/><path d="M8.5 9h4v6h-4zM21 9h4v6h-4z" fill="currentColor"/></svg>`,
 };
 
 /* ---------- Banco de preguntas de teoría ---------- */
@@ -2524,18 +2998,28 @@ const QUIZ = [
 
 /* ---------- Mapa de fantasía ---------- */
 const MAP_W = 360;
+const PIANO_THEMES = [
+  { land:"#EFE3C4", deco:["house","tree","bush"], mark:"village", edge:"coast" },
+  { land:"#DCD3A0", deco:["pine","tree","rock"], mark:"grove", edge:"cliff" },
+  { land:"#E6D2A2", deco:["hill","tree","bush"], mark:"tower", edge:"" },
+  { land:"#D9C79C", deco:["rock","hill","bush"], mark:"dungeon", edge:"chasm" },
+  { land:"#E3D4A4", deco:["tree","reed","bush"], mark:"river", edge:"coast" },
+  { land:"#E4D0A4", deco:["hill","rock","tree"], mark:"castle", edge:"" },
+  { land:"#D3C9B2", deco:["crag","rock","pine"], mark:"cave", edge:"cliff" },
+  { land:"#E9D39C", deco:["tree","hill","banner"], mark:"throne", edge:"" },
+];
 const THEMES = [
-  { land:"#E9D7A8", deco:["house","house","field","tree","tree","bush"], mark:"village" },   // Aldea
-  { land:"#DCD3A0", deco:["pine","pine","pine","tree","bush"], mark:"grove" },                // Bosque
-  { land:"#E6D2A2", deco:["hill","tree","bush","rock"], mark:"tower" },                       // Torre
-  { land:"#D9C79C", deco:["rock","rock","hill","bush"], mark:"dungeon" },                     // Mazmorras
-  { land:"#E3D4A4", deco:["tree","bush","reed","rock"], mark:"river" },                       // Puente
-  { land:"#E4D0A4", deco:["hill","tree","rock","bush"], mark:"castle" },                      // Almenas
-  { land:"#D5C39A", deco:["rock","rock","mount","bush"], mark:"cave" },                       // Cuevas
-  { land:"#E8E2CF", deco:["snowmount","snowmount","pine","rock"], mark:"peak" },              // Pico nevado
-  { land:"#CDBB93", deco:["crag","crag","rock"], mark:"chasm" },                              // Abismo
-  { land:"#E2E4DA", deco:["cloud","cloud","isle"], mark:"sky" },                              // Nubes
-  { land:"#E9D39C", deco:["tree","hill","banner","rock"], mark:"throne" },                    // Trono
+  { land:"#E9D7A8", deco:["house","house","field","tree","tree","bush"], mark:"village", edge:"coast" },   // Aldea
+  { land:"#D7DCA6", deco:["pine","pine","pine","tree","bush"], mark:"grove", edge:"forest" },                // Bosque
+  { land:"#EDD9A6", deco:["hill","tree","bush","rock"], mark:"tower", edge:"cliff" },                       // Torre
+  { land:"#C9B78F", deco:["rock","rock","hill","bush"], mark:"dungeon", edge:"chasm" },                     // Mazmorras
+  { land:"#DFDCB4", deco:["tree","bush","reed","rock"], mark:"river", edge:"coast" },                       // Puente
+  { land:"#E7D3A2", deco:["hill","tree","rock","bush"], mark:"castle", edge:"wall" },                      // Almenas
+  { land:"#BFB295", deco:["rock","rock","mount","bush"], mark:"cave", edge:"cliff" },                       // Cuevas
+  { land:"#EDEEE6", deco:["snowmount","snowmount","pine","rock"], mark:"peak", edge:"snow" },              // Pico nevado
+  { land:"#A99C86", deco:["crag","crag","rock"], mark:"chasm", edge:"chasm" },                              // Abismo
+  { land:"#D6E6EF", deco:["cloud","cloud","isle"], mark:"sky", edge:"clouds" },                              // Nubes
+  { land:"#F0DCA6", deco:["tree","hill","banner","rock"], mark:"throne", edge:"wall" },                    // Trono
 ];
 function mulberry(seed){ return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 const INK = "#5B4430", INK2 = "#8A6D4E";
@@ -2568,8 +3052,8 @@ const LANDMARK = {
   sky:(x,y) => DECO.isle(x,y,2) + DECO.cloud(x-34,y+24,1.1) + DECO.cloud(x+36,y-20,0.9),
   throne:(x,y) => `<g transform="translate(${x} ${y})"><path d="M-46 34V0h92v34z" fill="#EADFC6" stroke="${INK}" stroke-width="2"/><path d="M-20 34V-28h40v62z" fill="#E2D5B8" stroke="${INK}" stroke-width="2"/><path d="M-24-28 0-58 24-28z" fill="#6547E0" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/><path d="M-52 0V-18h14V0M38 0V-18h14V0" fill="#D8CAAE" stroke="${INK}" stroke-width="2"/><path d="M-54-18l10-16 10 16zM36-18l10-16 10 16z" fill="#C0654A" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/><path d="M-8 34V18a8 8 0 0 1 16 0v16z" fill="${INK}"/><path d="M0-58v-14l12 4-12 4" fill="#FFC23C" stroke="${INK}" stroke-width="1.5"/></g>`,
 };
-function regionLayout(i){
-  const nodes = chapterNodes(i);
+function regionLayout(i, camp){
+  const nodes = chapterNodes(i, camp);
   const top = 146, gap = 112;
   const H = top + (nodes.length - 1)*gap + 96;
   const phase = i*1.7;
@@ -2585,8 +3069,8 @@ function smoothPath(points){
   }
   return d;
 }
-function regionSVG(i, L){
-  const th = THEMES[i], rnd = mulberry(1000 + i*97);
+function regionSVG(i, L, camp){
+  const th = (camp === "piano" ? PIANO_THEMES : THEMES)[i], rnd = mulberry(1000 + i*97 + (camp === "piano" ? 5000 : 0));
   const { H, pts } = L;
   const route = [[MAP_W/2, 0], [MAP_W/2 + 30*Math.sin(i*1.7 - 0.9), 60], ...pts, [MAP_W/2, H]];
   const samples = [];
@@ -2618,30 +3102,44 @@ function regionSVG(i, L){
   }
   // camino
   const d = smoothPath(route);
-  s += `<path d="${d}" fill="none" stroke="#B48A5A" stroke-width="15" stroke-linecap="round" opacity=".55"/>`;
+  s += `<path d="${d}" fill="none" stroke="${th.edge === "snow" ? "#C9CFD6" : th.edge === "clouds" ? "#C3D6E2" : "#B48A5A"}" stroke-width="15" stroke-linecap="round" opacity=".55"/>`;
   s += `<path d="${d}" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 9"/>`;
-  if (th.mark === "river"){ const ry = pts[1][1] + 56; }
+  s += regionEdge(th.edge, H);
   return s;
+}
+function regionEdge(kind, H){
+  const y = H - 4;
+  if (kind === "coast") return `<path d="M0 ${y-16}h${MAP_W}v20H0z" fill="#8FB9C9"/><path d="M0 ${y-16}q20 -8 40 0t40 0 40 0 40 0 40 0 40 0 40 0 40 0 40 0" fill="none" stroke="${INK}" stroke-width="1.6" opacity=".55"/>`;
+  if (kind === "cliff") return `<path d="M0 ${y-14}l30 10 26-12 34 12 30-10 36 12 34-10 32 10 40-12 38 12v18H0z" fill="#9C8A6E" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"/>`;
+  if (kind === "forest") return [20,60,100,140,180,220,260,300,340].map(x => DECO.pine(x, y - 2, 1.3)).join("");
+  if (kind === "chasm") return `<path d="M0 ${y-10}l40 8 30-10 40 12 40-8 40 10 40-12 40 10 40-6 50 8v10H0z" fill="#2A2140"/>`;
+  if (kind === "snow") return `<path d="M0 ${y-12}q30 -10 60 0t60 0 60 0 60 0 60 0 60 0v18H0z" fill="#F4F7FA" stroke="${INK2}" stroke-width="1.4"/>`;
+  if (kind === "clouds") return [30,110,190,270,340].map(x => DECO.cloud(x, y - 4, 1.4)).join("");
+  if (kind === "wall") return `<path d="M0 ${y-14}h${MAP_W}v20H0z" fill="#D6C8A8" stroke="${INK}" stroke-width="1.6"/>` + Array.from({length:12}, (_,k) => `<rect x="${k*30+4}" y="${y-22}" width="18" height="10" fill="#D6C8A8" stroke="${INK}" stroke-width="1.6"/>`).join("");
+  return "";
 }
 function compassSVG(){
   return `<svg class="compass" viewBox="-30 -30 60 60" aria-hidden="true"><circle r="22" fill="none" stroke="${INK}" stroke-width="1.5"/><circle r="17" fill="none" stroke="${INK2}" stroke-width="1" stroke-dasharray="2 3"/><path d="M0-27 5-5 0 0-5-5z" fill="#C0654A" stroke="${INK}" stroke-width="1.2"/><path d="M0 27 5 5 0 0-5 5z" fill="#F3E3BE" stroke="${INK}" stroke-width="1.2"/><path d="M-27 0-5-5 0 0-5 5zM27 0 5-5 0 0 5 5z" fill="#E0CC9C" stroke="${INK}" stroke-width="1.2"/><text y="-30" text-anchor="middle" font-size="9" font-family="Lilita One, sans-serif" fill="${INK}">N</text></svg>`;
 }
 let mapScrolled = false;
 function renderMap(){
-  const f = frontier();
-  const cur = f < NODES.length ? NODES[f] : null;
+  const camp = CAMPAIGNS.find(c => c.id === store.mapCamp) || CAMPAIGNS[0];
+  const f = frontier(camp);
+  const cur = f < camp.nodes.length ? camp.nodes[f] : null;
   const { rank } = currentRank(); const lv = levelFromXp(store.xp);
   $("hudRank").textContent = rank;
   $("hudLevel").textContent = lv.lvl;
   $("hudXp").textContent = `${lv.into} / ${lv.need} XP`;
   $("hudFill").style.width = `${lv.into/lv.need*100}%`;
-  let html = `<div class="map-sheet"><div class="map-title"><span>El Reino del</span><b>Pentagrama</b></div>${compassSVG()}`;
-  STORY.forEach((c, i) => {
-    const L = regionLayout(i), nodes = L.nodes;
+  let html = `<div class="seg seg-camp" id="campSeg" role="group" aria-label="Campaña">${CAMPAIGNS.map(c => `<button data-camp="${c.id}" aria-pressed="${c.id === camp.id}">${c.name}</button>`).join("")}</div>
+    <p class="hint camp-tag">${camp.tag}</p>
+    <div class="map-sheet"><div class="map-title"><span>${camp.id === "piano" ? "La Escuela de" : "El Reino del"}</span><b>${camp.id === "piano" ? "Piano" : "Pentagrama"}</b></div>${compassSVG()}`;
+  camp.chapters.forEach((c, i) => {
+    const L = regionLayout(i, camp.id), nodes = L.nodes;
     const done = nodes.filter(n => nodeDone(n.id)).length;
     const reached = nodes.some(n => nodeState(n) !== "locked");
     html += `<section class="region" id="region-${i}" style="aspect-ratio:${MAP_W}/${L.H}">
-      <svg class="region-art" viewBox="0 0 ${MAP_W} ${L.H}" preserveAspectRatio="none" aria-hidden="true">${regionSVG(i, L)}</svg>
+      <svg class="region-art" viewBox="0 0 ${MAP_W} ${L.H}" preserveAspectRatio="none" aria-hidden="true">${regionSVG(i, L, camp.id)}</svg>
       <header class="ribbon"><span class="ribbon-ch">Capítulo ${i+1} · ${done}/${nodes.length}</span><h2>${c.zone}</h2></header>
       ${reached ? "" : `<div class="fog"><span>Tierra inexplorada</span></div>`}
       ${nodes.map((n, k) => {
@@ -2652,34 +3150,39 @@ function renderMap(){
           <span class="node-face">${st === "locked" ? ICONS.lock : ICONS[n.type]}</span>
           ${st === "done" ? `<span class="node-stars">${n.type === "lectura" ? `<i class="ok">${ICONS.check}</i>` : [1,2,3].map(s => `<i class="${s <= stars ? "on" : ""}">★</i>`).join("")}</span>` : ""}
           ${st === "skipped" ? `<span class="node-tag">Saltado</span>` : ""}
-          <span class="node-label">${n.type === "jefe" ? c.song.name : t.name}</span>
+          <span class="node-label">${n.type === "jefe" || n.type === "pJefe" ? c.song.name : t.name}</span>
         </button>`;
       }).join("")}
     </section>`;
   });
-  html += `<div class="map-end">${f >= NODES.length ? "<b>¡Reino conquistado!</b> Larga vida al Señor del Pentagrama." : "Más allá de aquí… dragones."}</div></div>`;
+  html += `<div class="map-end">${f >= camp.nodes.length ? `<b>¡Campaña completada!</b> ${camp.id === "piano" ? "Ya eres concertista." : "Larga vida al Señor del Pentagrama."}` : "Más allá de aquí… dragones."}</div></div>`;
   $("mapBody").innerHTML = html;
   if (!mapScrolled && cur){
     mapScrolled = true;
     requestAnimationFrame(() => { const el = document.querySelector(`[data-node="${cur.id}"]`); if (el) el.scrollIntoView({ block:"center" }); });
   }
 }
-$("mapBody").addEventListener("click", e => { const b = e.target.closest("button[data-node]"); if (b) openNodeSheet(nodeById(b.dataset.node)); });
+$("mapBody").addEventListener("click", e => {
+  const c = e.target.closest("button[data-camp]");
+  if (c){ store.mapCamp = c.dataset.camp; mapScrolled = false; save(); renderMap(); return; }
+  const b = e.target.closest("button[data-node]"); if (b) openNodeSheet(nodeById(b.dataset.node));
+});
 
 /* ---------- Ficha del nivel ---------- */
 let SHEET_NODE = null;
 function openNodeSheet(n){
   SHEET_NODE = n;
-  const st = nodeState(n), t = NODE_TYPES[n.type], c = STORY[n.ch], p = nodeParams(n);
+  const st = nodeState(n), t = NODE_TYPES[n.type], c = chapterOf(n), p = nodeParams(n);
   const stars = store.nodes[n.id]?.stars || 0;
   let goal = t.desc;
   if (n.type === "crono") goal = `45 segundos. Objetivo: ${p.targets[0]} aciertos (★), ${p.targets[1]} (★★), ${p.targets[2]} (★★★). Cada fallo resta 2 s.`;
   if (n.type === "tempo") goal = `${p.count} notas a ${p.bpm} pulsos por minuto. Nombra cada nota antes de que cruce la línea. Tienes 3 vidas.`;
-  if (n.type === "jefe") goal = `${c.song.name} · ${c.song.origin}. ${c.song.bpm} pulsos por minuto y ni un solo fallo.`;
-  const lessons = THEORY.filter(l => l.ch <= n.ch && (n.type === "quiz" || n.type === "lectura" ? l.ch === n.ch : l.ch === n.ch)).slice(0, 3);
+  if (n.type === "jefe" || n.type === "pJefe") goal = `${c.song.name} · ${c.song.origin}. ${c.song.bpm} pulsos por minuto y ni un solo fallo.`;
+  if (n.type === "teclado" || n.type === "pTeclas") goal = "Aparece una nota en el pentagrama y la tocas en el teclado de piano. 15 notas, 80 % para superarlo.";
+  const lessons = THEORY.filter(l => l.ch === Math.min(n.ch, STORY.length-1)).slice(0, 3);
   $("nsCard").className = `ns-card t-${t.color}`;
   $("nsIcon").innerHTML = ICONS[n.type];
-  $("nsType").textContent = `${t.name} · capítulo ${n.ch+1}`;
+  $("nsType").textContent = `${t.name} · ${campOf(n).name} · capítulo ${n.ch+1}`;
   $("nsTitle").textContent = nodeTitle(n);
   $("nsGoal").textContent = goal;
   $("nsReward").innerHTML = st === "done"
@@ -2693,7 +3196,7 @@ function openNodeSheet(n){
     btns.push(`<button class="btn btn-${t.color === "parch" ? "gold" : t.color}" data-ns="play">${st === "done" ? "Repetir" : t.verb}</button>`);
     if (st === "open") btns.push(`<button class="btn btn-ghost" data-ns="skip">Saltar este nivel</button>`);
   }
-  if (lessons.length && n.type !== "lectura") btns.push(`<button class="btn btn-ghost" data-ns="lesson" data-lesson="${lessons[0].id}">Repasar teoría: ${lessons[0].title}</button>`);
+  if (lessons.length && n.type !== "lectura" && n.type !== "pLectura") btns.push(`<button class="btn btn-ghost" data-ns="lesson" data-lesson="${lessons[0].id}">Repasar teoría: ${lessons[0].title}</button>`);
   $("nsBtns").innerHTML = btns.join("");
   $("nodeSheet").hidden = false;
 }
@@ -2712,18 +3215,23 @@ $("nodeSheet").addEventListener("click", e => {
 });
 
 function startNode(n){
-  const c = STORY[n.ch];
+  const c = chapterOf(n);
   if (n.type === "lectura") return openScroll(n);
-  if (n.type === "jefe") return openSong(n.ch, null, n);
-  if (n.type === "tempo") return openTempo(n);
-  if (n.type === "quiz") return openQuiz(n);
-  const notes = learnedUpTo(n.ch);
-  if (!notes.fa.length) delete notes.fa;
-  if (!notes.sol.length) delete notes.sol;
-  const base = { id:n.id, node:n, story:n.ch, grand:true, notes, figs: figsUpTo(n.ch), newFigs: c.figs,
-    newNotes: c.add.map(pNote) };
-  if (n.type === "entreno") openLevel({ ...base, name:"Entrenamiento", total:15, pass:0.8,
-    tip:`<b>15 notas</b> entre las que conoces; las nuevas (${c.add.map(pNote).map(x => nameOf(x.d,0,true)).join(", ") || "repaso"}) salen más a menudo. Necesitas un <b>80 %</b>.` });
+  if (n.type === "pLectura") return openScrollPiano(n);
+  if (n.type === "jefe" || n.type === "pJefe") return openSong(n.ch, null, n);
+  if (n.type === "tempo" || n.type === "pTempo") return openTempo(n);
+  if (n.type === "quiz" || n.type === "pQuiz") return openQuiz(n);
+  const piano = n.type === "teclado" || n.type === "pTeclas";
+  const { notes } = piano && n.camp === "piano" ? pianoNotesFor(n) : { notes: learnedUpTo(n.ch) };
+  if (!notes.fa || !notes.fa.length) delete notes.fa;
+  if (!notes.sol || !notes.sol.length) delete notes.sol;
+  const figs = n.camp === "piano" ? pianoFigs(n.ch) : figsUpTo(n.ch);
+  const base = { id:n.id, node:n, story:n.ch, grand:true, notes, figs, newFigs: c.figs || [],
+    newNotes: (c.add || []).map(pNote), input: piano ? "piano" : "botones" };
+  if (piano) openLevel({ ...base, name:"Nota a tecla", total:15, pass:0.8,
+    tip:`Aparece una nota y tú <b>tocas su tecla</b> en el piano de abajo. ${n.camp === "piano" ? "Fíjate en qué pentagrama está: arriba, mano derecha; abajo, mano izquierda." : "Mira bien la clave antes de pulsar."} Necesitas un <b>80 %</b>.` });
+  else if (n.type === "entreno") openLevel({ ...base, name:"Entrenamiento", total:15, pass:0.8,
+    tip:`<b>15 notas</b> entre las que conoces; las nuevas (${(c.add||[]).map(pNote).map(x => nameOf(x.d,0,true)).join(", ") || "repaso"}) salen más a menudo. Necesitas un <b>80 %</b>.` });
   else if (n.type === "claves") openLevel({ ...base, name:"Cambio de clave", total:16, pass:0.8, alternate:true,
     tip:"Las notas saltan entre la <b>clave de sol</b> y la <b>clave de fa</b>. Antes de nombrar, mira qué clave tiene. Necesitas un <b>80 %</b>." });
   else if (n.type === "crono"){ const p = nodeParams(n); openLevel({ ...base, name:"Contrarreloj", timed:p.time, targets:p.targets,
@@ -2758,13 +3266,15 @@ function openScroll(n){
 let QZ = null;
 function openQuiz(n){
   stopAll();
-  const pool = QUIZ.filter(q => q[0] <= Math.min(n.ch, 9));
+  const bank = n.camp === "piano" ? PIANO_QUIZ : QUIZ;
+  const pool = bank.filter(q => q[0] <= Math.min(n.ch, 9));
   const recent = pool.filter(q => q[0] >= n.ch - 1);
   const pick = [];
   const take = (arr, k) => { const a = shuffle(arr.filter(q => !pick.includes(q))); pick.push(...a.slice(0, k)); };
   take(recent, 4); take(pool, 6 - pick.length);
+  if (pick.length < 4) take(bank, 6 - pick.length);
   QZ = { n, qs: shuffle(pick), i:0, right:0, answered:false, log:[] };
-  $("qzTitle").textContent = `Examen · capítulo ${n.ch+1}`;
+  $("qzTitle").textContent = `${n.camp === "piano" ? "Teclado" : "Teoría"} · capítulo ${n.ch+1}`;
   show("quiz");
   showQuestion();
 }
@@ -2863,6 +3373,11 @@ function renderProfile(){
       <div class="stat"><strong>${st.days.length}</strong><span>Días jugados</span></div>
     </div>
     ${hard.length ? `<p class="section-label">Tus notas más difíciles</p><div class="card hard">${hard.map(h => `<div class="hard-row"><span class="hard-name">${nameOf(h.d,0,true)} <small>clave de ${h.clef}</small></span><span class="hard-bar"><i style="width:${Math.round(h.rate*100)}%"></i></span><span class="hard-pct">${Math.round(h.rate*100)} %</span></div>`).join("")}<p class="hint">Porcentaje de fallos en las notas que has visto al menos 3 veces.</p></div>` : ""}
+    <p class="section-label">Campañas</p>
+    <div class="stat-grid camp-stats">
+      ${CAMPAIGNS.map(c => { const done = c.nodes.filter(n => nodeDone(n.id)).length; return `<div class="stat" style="grid-column:span 3"><strong>${done}/${c.nodes.length}</strong><span>${c.name} · ${c.tag}</span></div>`; }).join("")}
+      <div class="stat" style="grid-column:span 3"><strong>${Object.values(store.scores||{}).filter(s => s.stars).length}/${SCORES.length}</strong><span>Partituras tocadas</span></div>
+    </div>
     <p class="section-label">Logros <span class="count">${achDone}/${ACHIEVEMENTS.length}</span></p>
     <div class="ach-grid">${ACHIEVEMENTS.map(a => `<div class="ach ${store.ach[a.id] ? "got" : ""}" title="${a.desc}"><span class="ach-ic">${a.icon}</span><b>${a.name}</b><small>${a.desc}</small></div>`).join("")}</div>
     <p class="section-label">Niveles saltados <span class="count">${skipped.length}</span></p>
@@ -2892,35 +3407,50 @@ function pwChecksum(data, bits){
   for (let i = 0n; i < bits; i += 8n) h = (h*31n + ((data >> i) & 255n)) % 509n;
   return h;
 }
-// versión(3) · niveles alcanzados(7) · superado/saltado de cada uno(63) · XP/10(16) · arcade/10(12) · control(9) = 110 bits → 22 caracteres
-const PW_DATA_BITS = 3n + 7n + 63n + 16n + 12n;
-function makePassword(){
-  let data = 2n;
-  const push = (v, n) => { data = (data << BigInt(n)) | BigInt(Math.max(0, Math.min(Math.round(v), 2**n - 1))); };
-  const f = Math.min(frontier(), 127);
-  push(f, 7);
+// v3: versión(3) · solfeo: alcanzados(7)+superados(63) · piano: alcanzados(6)+superados(40) · XP/10(16) · arcade/10(12) · control(9) = 156 bits → 32 caracteres
+const PW_DATA_BITS = 3n + 7n + 63n + 6n + 40n + 16n + 12n;
+const PW_LEN = 32;
+function campMask(camp, f){
   let mask = 0n;
-  NODES.slice(0, f).forEach((n, i) => { if (nodeDone(n.id)) mask |= 1n << BigInt(i); });
-  data = (data << 63n) | (mask & ((1n << 63n) - 1n));
+  camp.nodes.slice(0, f).forEach((n, i) => { if (nodeDone(n.id)) mask |= 1n << BigInt(i); });
+  return mask;
+}
+function makePassword(){
+  let data = 3n;
+  const push = (v, n) => { data = (data << BigInt(n)) | BigInt(Math.max(0, Math.min(Math.round(v), 2**n - 1))); };
+  const c0 = CAMPAIGNS[0], c1 = CAMPAIGNS[1];
+  const f0 = Math.min(frontier(c0), 127), f1 = Math.min(frontier(c1), 63);
+  push(f0, 7); data = (data << 63n) | (campMask(c0, f0) & ((1n << 63n) - 1n));
+  push(f1, 6); data = (data << 40n) | (campMask(c1, f1) & ((1n << 40n) - 1n));
   push(store.xp/10, 16); push((store.arcade.best||0)/10, 12);
   const full = (data << 9n) | pwChecksum(data, PW_DATA_BITS);
   let s = "";
-  for (let i = 21; i >= 0; i--) s += PW_ALPHA[Number((full >> BigInt(5*i)) & 31n)];
+  for (let i = PW_LEN - 1; i >= 0; i--) s += PW_ALPHA[Number((full >> BigInt(5*i)) & 31n)];
   return s.match(/.{1,5}/g).join("-");
 }
 function readPassword(pw){
-  const clean = pw.toUpperCase().replace(/[^A-Z0-9]/g, "");
-  if (clean.length !== 22) throw new Error("longitud");
+  const clean = (pw || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+  if (clean.length !== PW_LEN) throw new Error("longitud");
   let full = 0n;
   for (const ch of clean){ const v = PW_ALPHA.indexOf(ch); if (v < 0) throw new Error("caracter"); full = (full << 5n) | BigInt(v); }
   let data = full >> 9n;
   if (pwChecksum(data, PW_DATA_BITS) !== (full & 511n)) throw new Error("checksum");
   const take = n => { const v = data & ((1n << BigInt(n)) - 1n); data >>= BigInt(n); return v; };
-  const arc = Number(take(12))*10, xp = Number(take(16))*10, mask = take(63), f = Number(take(7));
-  if (Number(data) !== 2 || f > NODES.length) throw new Error("version");
+  const arc = Number(take(12))*10, xp = Number(take(16))*10;
+  const mask1 = take(40), f1 = Number(take(6)), mask0 = take(63), f0 = Number(take(7));
+  if (Number(data) !== 3) throw new Error("version");
   const nodes = {}, skips = {};
-  NODES.slice(0, f).forEach((n, i) => { if ((mask >> BigInt(i)) & 1n) nodes[n.id] = { stars:1 }; else skips[n.id] = Date.now(); });
+  [[CAMPAIGNS[0], f0, mask0], [CAMPAIGNS[1], f1, mask1]].forEach(([camp, f, mask]) => {
+    camp.nodes.slice(0, f).forEach((n, i) => { if ((mask >> BigInt(i)) & 1n) nodes[n.id] = { stars:1 }; else skips[n.id] = Date.now(); });
+  });
   return { nodes, skips, xp, arcade:{ best:arc } };
+}
+function applyPassword(p){
+  store.nodes = { ...p.nodes };
+  store.skips = { ...p.skips };
+  store.xp = p.xp; store.arcade = { best: Math.max(p.arcade.best, store.arcade.best || 0) };
+  store.seen = true;
+  save(); checkAchievements();
 }
 function setBackupMsg(t, bad){ const m = $("bkMsg"); if (!m) return; m.textContent = t; m.className = "hint bk-msg" + (bad ? " bad" : ""); }
 function showPassword(){ const pw = makePassword(); if ($("bkPw")) $("bkPw").textContent = pw; return pw; }
@@ -2932,19 +3462,15 @@ function bindBackup(){
   };
   $("bkRestore").onclick = () => {
     try {
-      const p = readPassword($("bkPaste").value);
-      Object.entries(p.nodes).forEach(([id, v]) => { if (!store.nodes[id]) store.nodes[id] = v; });
-      store.skips = { ...p.skips };
-      Object.keys(store.nodes).forEach(id => { if (!p.nodes[id]) delete store.nodes[id]; });
-      store.xp = p.xp; store.arcade = { best: Math.max(p.arcade.best, 0) };
-      save(); checkAchievements(); renderProfile(); setBackupMsg(`¡Contraseña aceptada! Rango: ${currentRank().rank}.`);
+      applyPassword(readPassword($("bkPaste").value));
+      renderProfile(); setBackupMsg(`¡Contraseña aceptada! Rango: ${currentRank().rank}.`);
     } catch(e){ setBackupMsg("Contraseña incorrecta. Revisa que esté completa (los guiones dan igual).", true); }
   };
   $("bkFile").onclick = () => {
     try {
       const blob = new Blob([JSON.stringify({ app:"solfeo-bolsillo", v:4, saved:new Date().toISOString(), data:store })], { type:"application/json" });
       const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob); a.download = `solfeo-progreso-${new Date().toISOString().slice(0,10)}.json`;
+      a.href = URL.createObjectURL(blob); a.download = `clave-maestra-progreso-${new Date().toISOString().slice(0,10)}.json`;
       document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
       setBackupMsg("Archivo descargado.");
     } catch(e){ setBackupMsg("Aquí no se pueden descargar archivos. Usa la contraseña.", true); }
@@ -2957,10 +3483,72 @@ function bindBackup(){
       store = { ...store, ...obj.data, stats:{ ...blankStats(), ...(obj.data.stats||{}) }, settings:{ ...store.settings, ...(obj.data.settings||{}) } };
       try { VM = store.voiceSamples ? VoiceEngine.buildModel(VoiceEngine.unpack(store.voiceSamples).t) : null; } catch(err){ VM = null; }
       save(); renderProfile(); setBackupMsg("Progreso restaurado desde el archivo.");
-    } catch(err){ setBackupMsg("Ese archivo no es una copia de Solfeo de Bolsillo.", true); }
+    } catch(err){ setBackupMsg("Ese archivo no es una copia de Clave Maestra.", true); }
   };
 }
 try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch(e){}
+/* ---------- Bienvenida ---------- */
+const WELCOME_STEPS = [
+  { art:"map", title:"Aprende a leer música jugando", text:"Dos campañas por el Reino del Pentagrama: <b>Solfeo</b>, para nombrar las notas al vuelo, y <b>Piano</b>, para encontrarlas en el teclado. Capítulos, retos, jefes y rangos." },
+  { art:"staff", title:"Las dos claves desde el principio", text:"Empiezas por el <b>Do central</b> y vas ganando notas en <b>clave de sol</b> y <b>clave de fa</b> a la vez, que es lo que necesita un pianista. Nomenclatura española: Do, Re, Mi… y el Do central es <b>Do3</b>." },
+  { art:"voice", title:"Responde como quieras", text:"Con los <b>botones</b>, con el <b>teclado de piano</b> o <b>en voz alta</b>: entrenas tu voz una vez y la app reconoce solo tus siete notas, al instante." },
+  { art:"save", title:"Tu progreso es una contraseña", text:"Esto es una web sin cuentas: el progreso se guarda en este dispositivo y además te damos una <b>contraseña</b> para recuperarlo donde quieras. Si ya tienes una, pégala ahora." },
+];
+const WELCOME_ART = {
+  map:`<svg viewBox="0 0 200 120"><rect x="6" y="6" width="188" height="108" rx="8" fill="#E9D7A8" stroke="#7E5F33" stroke-width="3"/><path d="M28 100C60 86 52 58 84 48s36-22 84-30" fill="none" stroke="#B48A5A" stroke-width="9" stroke-linecap="round"/><path d="M28 100C60 86 52 58 84 48s36-22 84-30" fill="none" stroke="#5B4430" stroke-width="2" stroke-dasharray="2 8"/><g><circle cx="40" cy="92" r="13" fill="#2FD69B" stroke="#3B2A1A" stroke-width="3"/><circle cx="92" cy="45" r="13" fill="#9277FF" stroke="#3B2A1A" stroke-width="3"/><circle cx="156" cy="24" r="15" fill="#FF5D5D" stroke="#3B2A1A" stroke-width="3"/></g><path d="M150 24l4 4 8-9" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+  staff:`<svg viewBox="0 0 200 120"><g stroke="#2A2140" stroke-width="2">${[0,1,2,3,4].map(i => `<line x1="14" x2="186" y1="${28+i*11}" y2="${28+i*11}"/>`).join("")}${[0,1,2,3,4].map(i => `<line x1="14" x2="186" y1="${74+i*11}" y2="${74+i*11}"/>`).join("")}</g><text x="18" y="72" font-family="Solfeo Music, serif" font-size="44" fill="#2A2140">𝄞</text><text x="18" y="107" font-family="Solfeo Music, serif" font-size="44" fill="#2A2140">𝄢</text><ellipse cx="120" cy="72" rx="9" ry="6.5" fill="#FF5D5D"/><line x1="84" x2="156" y1="72" y2="72" stroke="#2A2140" stroke-width="2"/><text x="120" y="118" text-anchor="middle" font-size="12" font-weight="800" font-family="Nunito, sans-serif" fill="#1B7FCB">Do3</text></svg>`,
+  voice:`<svg viewBox="0 0 200 120"><rect x="16" y="66" width="168" height="42" rx="6" fill="#FFFDF6" stroke="#3B2A1A" stroke-width="3"/>${[0,1,2,3,4,5,6].map(i => `<line x1="${16+24*(i+1)}" x2="${16+24*(i+1)}" y1="66" y2="108" stroke="#3B2A1A" stroke-width="2"/>`).join("")}${[0,1,3,4,5].map(i => `<rect x="${16+24*(i+1)-7}" y="66" width="14" height="26" fill="#2A2140"/>`).join("")}<circle cx="100" cy="34" r="20" fill="#45B8FF" stroke="#3B2A1A" stroke-width="3"/><rect x="94" y="24" width="12" height="16" rx="6" fill="#fff"/><path d="M90 38a10 10 0 0 0 20 0M100 46v6" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+  save:`<svg viewBox="0 0 200 120"><rect x="30" y="26" width="140" height="70" rx="10" fill="#2A2140" stroke="#FFC23C" stroke-width="3"/><text x="100" y="58" text-anchor="middle" font-size="17" font-family="ui-monospace, monospace" font-weight="800" fill="#FFC23C">JLAAA-AAAAA</text><text x="100" y="80" text-anchor="middle" font-size="17" font-family="ui-monospace, monospace" font-weight="800" fill="#FFC23C">AAAB6-ABGAA</text></svg>`,
+};
+let WSTEP = 0;
+function showWelcome(){
+  WSTEP = 0; renderWelcome(); show("welcome");
+}
+function renderWelcome(){
+  const s = WELCOME_STEPS[WSTEP], last = WSTEP === WELCOME_STEPS.length - 1;
+  $("wcBody").innerHTML = `
+    <div class="wc-art">${WELCOME_ART[s.art]}</div>
+    <h2>${s.title}</h2>
+    <p>${s.text}</p>
+    ${last ? `<div class="bk-row"><input id="wcCode" class="pw-input" placeholder="Pega tu contraseña" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Contraseña de progreso"><button class="btn btn-ghost" id="wcLoad">Cargar</button></div><p id="wcMsg" class="hint" aria-live="polite"></p>` : ""}
+    <div class="wc-dots">${WELCOME_STEPS.map((_, i) => `<i class="${i === WSTEP ? "on" : ""}"></i>`).join("")}</div>
+    <button class="btn btn-gold big" id="wcNext">${last ? "¡Empezar de cero!" : "Siguiente"}</button>
+    ${last ? "" : `<button class="btn btn-ghost" id="wcSkip">Saltar la presentación</button>`}`;
+  $("wcNext").onclick = () => { if (WSTEP < WELCOME_STEPS.length - 1){ WSTEP++; renderWelcome(); } else finishWelcome(); };
+  if ($("wcSkip")) $("wcSkip").onclick = () => { WSTEP = WELCOME_STEPS.length - 1; renderWelcome(); };
+  if ($("wcLoad")) $("wcLoad").onclick = () => {
+    try {
+      applyPassword(readPassword($("wcCode").value));
+      $("wcMsg").textContent = `¡Contraseña aceptada! Rango: ${currentRank().rank}.`;
+      $("wcMsg").className = "hint";
+      setTimeout(finishWelcome, 900);
+    } catch(e){ $("wcMsg").textContent = "Esa contraseña no vale. Revisa que esté completa."; $("wcMsg").className = "hint bk-msg bad"; }
+  };
+}
+function finishWelcome(){ store.seen = true; save(); mapScrolled = false; renderHome(); show("home"); }
+
+/* ---------- Fin de capítulo ---------- */
+function chapterFinished(n){
+  const nodes = chapterNodes(n.ch, n.camp);
+  return nodes.every(m => nodeDone(m.id));
+}
+function celebrateChapter(n){
+  const camp = campOf(n), c = chapterOf(n), last = n.ch === camp.chapters.length - 1;
+  const pw = makePassword();
+  const stars = chapterNodes(n.ch, n.camp).reduce((a, m) => a + (store.nodes[m.id]?.stars || 0), 0);
+  $("ccTitle").textContent = last ? "¡Campaña completada!" : `¡Capítulo ${n.ch+1} superado!`;
+  $("ccRank").textContent = c.rank;
+  $("ccText").innerHTML = `Has terminado <b>${c.zone}</b> con ${stars} estrellas.${last ? " No queda tierra por explorar en esta campaña." : ` Te espera el capítulo ${n.ch+2}.`}`;
+  $("ccPw").textContent = pw;
+  $("ccMsg").textContent = "";
+  $("ccNext").textContent = last ? "Volver al mapa" : `Ir al capítulo ${n.ch+2}`;
+  show("chapterend");
+}
+$("ccCopy").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText($("ccPw").textContent); $("ccMsg").textContent = "Contraseña copiada. Guárdala donde quieras."; }
+  catch(e){ $("ccMsg").textContent = "Mantén pulsada la contraseña para copiarla."; }
+});
+$("ccNext").addEventListener("click", () => { mapScrolled = false; leave(); });
 /* ---------- Eventos ---------- */
 document.querySelector(".nav").addEventListener("click", e => {
   const b = e.target.closest("button[data-tab]"); if (!b) return;
@@ -3002,7 +3590,7 @@ $("btnVoiceReset").addEventListener("click", () => { if (confirm("¿Borrar las g
 $("btnReset").addEventListener("click", () => { if (confirm("¿Borrar niveles, estrellas, XP, logros, estadísticas y récords?")) { store.nodes = {}; store.skips = {}; store.best = {}; store.xp = 0; store.arcade = { best:0 }; store.ach = {}; store.stats = blankStats(); save(); mapScrolled = false; closeSheet(); } });
 
 renderHome();
-show("home");
+if (store.seen || Object.keys(store.nodes).length) show("home"); else showWelcome();
 checkAchievements();
 })();
 </script>
