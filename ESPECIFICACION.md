@@ -3,7 +3,7 @@
 > Documento de diseño dirigido por especificación (*spec-driven design*).
 > Objetivo: que otra IA (o un equipo) pueda reconstruir esta aplicación desde cero y obtener un producto prácticamente idéntico.
 > Idioma del producto: **español de España**. Nomenclatura musical **latina** (Do, Re, Mi…).
-> Versión del documento: 1.3 · Corresponde a la versión 14 de la app (revisión pedagógica + orientación del teclado).
+> Versión del documento: 1.4 · Corresponde a la versión 15 de la app (piano MIDI, dos barras de tempo, modo horizontal y voz).
 
 ---
 
@@ -92,6 +92,15 @@ Glifos Unicode `U+1D13B`…`U+1D13E` de la fuente musical embebida. Como el orig
 
 `figsUpTo(cap)` devuelve las figuras acumuladas **sin** los silencios (se usa para sortear figuras en los niveles de lectura); los silencios solo aparecen en las canciones y en la teoría.
 
+**Tamaño del pentagrama (`viewBox` adaptativo).** Ningún pentagrama tiene medidas fijas: el `viewBox` se calcula para que el dibujo llene el hueco en las dos direcciones.
+
+- *Alto*: se recorta al rango real de notas del nivel o de la pieza. Como las plicas apuntan hacia el centro, basta con el rango más una plica arriba y otra abajo: `top = max(hi, lo+7) + 1,6`, `bot = min(lo, hi-7) − 1,6` (en posiciones de pentagrama, donde 0 es la 1ª línea y 8 la 5ª). En un nivel típico eso baja el alto de 156 a ~90 unidades.
+- *Ancho*: `W = alto × (ancho/alto del hueco medido en el DOM)`, con un mínimo. Así el `viewBox` tiene la misma forma que la caja y la escala no desperdicia ni ancho ni alto.
+- Las canciones de una sola clave dibujan **un solo pentagrama** en vez del gran pentagrama: ocupa el doble.
+- Se vuelve a medir después de `show(...)`, después de ocultar la introducción (el escenario crece) y al girar el móvil, porque un elemento oculto mide cero y el dibujo saldría diminuto.
+
+Efecto medido con el mismo contenido: en móvil horizontal la altura del pentagrama pasa de 48 px a 98–132 px.
+
 Reglas de dibujo:
 - Plica arriba si la posición media del grupo está por debajo de la 3ª línea (`pos < 4`), abajo en caso contrario. Longitud 3,3–3,5 espacios.
 - Barras: recta entre los extremos de las plicas, pendiente limitada a ±0,8 espacios, desplazada para que ninguna plica quede más corta de 2,7 espacios; grosor 5 unidades; barras secundarias a 8 unidades hacia dentro; medias barras (*stubs*) de 11 unidades cuando el nivel de barra cubre una sola nota.
@@ -115,6 +124,19 @@ Cada melodía lleva además:
 - `up` (opcional): pulsos de **anacrusa**, para que las barras caigan donde deben cuando la pieza empieza en parte débil.
 
 **Invariante de tempo:** ninguna canción de jefe baja de la corchea, porque hay que **nombrarla en voz alta a tempo**: a 60–74 ppm una corchea da 400–500 ms, ya en el límite del reconocedor. Las semicorcheas y los grupos mixtos se practican solo en los niveles de lectura, donde no hay reloj.
+
+#### Las dos barras
+
+El pentagrama que corre lleva **dos líneas verticales**, no una:
+
+| Línea | Color | Qué significa |
+|---|---|---|
+| **A compás** | verde, continua | Donde cae la nota en el pulso. Es el objetivo. |
+| **Tarde** | roja, discontinua, por detrás | Si la nota la cruza, se acabó (o se pierde una vida). |
+
+Entre las dos hay una **franja ámbar**: el margen real. Su anchura es `grace = clamp(48/bpm, 0,5, 1) pulsos`, constante durante toda la pieza, y la cabeza de la nota en juego pasa de azul a ámbar al entrar en ella. Con una sola línea el jugador leía «¡YA!» y creía que ya llegaba tarde; el margen existía desde el principio, pero no se veía.
+
+La geometría se deriva del ancho: `PH = max(124, 0,34·W)` para la línea de tempo, `PXB = max(46, (W − PH)/7)` para que se vean unos siete pulsos por delante, y la línea de fallo en `PH − grace·PXB`.
 
 ---
 
@@ -325,14 +347,18 @@ El teclado **no tiene un ancho de tecla fijo**: al montarse mide el espacio real
 - Si el reparto sale ≥ 26 px, el teclado **entra entero** y se centra, sin desplazamiento horizontal.
 - Si sale por debajo, el teclado pasa a 26 px por tecla con scroll horizontal, que es el peor caso: el jugador tiene que buscar la tecla mientras corre el reloj.
 
-Para evitar ese peor caso en el móvil, antes de empezar cualquier nivel que se responde con el teclado (niveles `teclado`/`pTeclas`, recitales de piano, partituras «Tocar en el teclado» y arcade con entrada de teclado) se muestra la pantalla **«Gira el móvil»**, con el número de teclas del nivel y un botón **«Seguir en vertical»**. Se muestra solo si se cumplen las cuatro condiciones:
+Cuando hay que desplazarlo, el teclado **se centra en las notas que el ejercicio usa de verdad** (el punto medio entre su nota más grave y la más aguda), no en el rango redondeado a octavas completas. Se recentra al girar y al volver a medir la pantalla.
+
+Para evitar ese peor caso en el móvil, antes de empezar cualquier nivel que se responde con el teclado (niveles `teclado`/`pTeclas`, recitales de piano, partituras «Tocar en el teclado» y arcade con entrada de teclado) se muestra la pantalla **«Gira el móvil»**, con el número de teclas del nivel. Se muestra solo si se cumplen las cuatro condiciones:
 
 1. el teclado no cabe entero,
 2. la pantalla está en vertical (en horizontal no hay nada que girar),
 3. falta ancho de verdad (`ancho < 0,72 × ancho necesario`; si falta poco no merece interrumpir — por eso el iPad en vertical nunca lo pide),
 4. girar lo arregla (`alto ≥ 0,9 × ancho necesario`).
 
-Al aparecer intenta `screen.orientation.lock("landscape")`, que funciona en Chrome/Android y falla silenciosamente en iOS. **No se puede forzar la orientación en la web de iPhone**, así que el aviso es un bloqueo *dismissable*: se pide girar, se explica el bloqueo de rotación del sistema y siempre queda la salida en vertical con scroll. Al girar, el aviso se retira solo. La decisión de «seguir en vertical» dura la sesión (se olvida al recargar), porque es un empujón útil, no una preferencia.
+Al aparecer intenta `screen.orientation.lock("landscape")`, que funciona en Chrome/Android y falla silenciosamente en iOS. **No se puede forzar la orientación en la web de iPhone**, así que el bloqueo es lo más parecido a obligatorio que permite la plataforma: en pantallas pequeñas (lado mayor < 950 px) el botón «Seguir en vertical» **no aparece hasta pasados 5 segundos**; hasta entonces solo se ve el aviso de que la salida llegará si de verdad no se puede girar. En pantallas grandes la salida está desde el principio. Existe siempre porque, con el bloqueo de rotación del sistema activado, sin ella el nivel sería injugable. Al girar, el aviso se retira solo. La decisión de «seguir en vertical» dura la sesión (se olvida al recargar), porque es un empujón útil, no una preferencia.
+
+Si hay un piano MIDI conectado (§6.5) el aviso no aparece: no se toca la pantalla.
 
 Cifras reales medidas (rango máximo, 28 teclas blancas → 748 px necesarios):
 
@@ -342,7 +368,16 @@ Cifras reales medidas (rango máximo, 28 teclas blancas → 748 px necesarios):
 | Móvil horizontal 844×390 | 28,8 px | sí | no |
 | iPad vertical 820×1180 | 26,7 px | sí | no |
 
-### 6.3 Voz (reconocedor propio)
+### 6.3 Piano MIDI («tocar con mi piano»)
+
+En el modo piano se puede responder **tocando el instrumento de verdad**, con la **Web MIDI API**:
+
+- `navigator.requestMIDIAccess({sysex:false})` y escucha de `noteOn` (`status & 0xF0 === 0x90`, velocidad > 0) en todas las entradas; `onstatechange` vuelve a enlazar cuando se conecta o desconecta un teclado.
+- El interruptor aparece en el mismo hueco que usa el panel de voz, en todos los sitios donde se responde con teclado (nivel, recital, partitura y arcade); ambos paneles comparten el hueco y el que no está en uso se aparca sin destruirse.
+- Con MIDI activo el teclado de la pantalla sigue funcionando y se ilumina la tecla que llega del piano, así se ve la correspondencia.
+- Safari en iPhone no admite Web MIDI: el interruptor lo dice y queda desactivado, sin prometer nada que no pueda cumplir.
+
+### 6.4 Voz (reconocedor propio)
 
 Motor de reconocimiento **local**, sin servicios externos, específico para 7 palabras.
 
@@ -354,13 +389,15 @@ Motor de reconocimiento **local**, sin servicios externos, específico para 7 pa
 
    | Tipo de nivel | Margen |
    |---|---|
-   | Entrenamiento, nota a tecla, examen | 1,20 |
-   | Cambio de clave | 1,16 |
-   | Práctica de partitura | 1,16 |
-   | Partitura a tempo | 1,10 |
-   | Contrarreloj, arcade | 1,08 |
-   | Al compás, jefe | 1,06 |
-5. **Entrenamiento:** 3 rondas × 7 notas (~40 s) con medidor de nivel, deshacer y validación cruzada *leave-one-out* que estima la precisión.
+   | Entrenamiento, nota a tecla, examen, pergamino | 1,12 |
+   | Cambio de clave | 1,10 |
+   | Contrarreloj, arcade, partitura | 1,06 |
+   | Al compás, jefe | 1,05 |
+
+   La tabla se aflojó en la versión 15. La anterior empezaba en 1,20, más estricta que el antiguo ajuste «normal» (1,14) que sustituyó, y el resultado práctico era que el reconocedor pedía repetir más que antes aunque hubiera entendido bien. Un margen alto no acierta más: solo se calla más.
+5. **Entrenamiento:** **4 rondas × 7 notas** (28 muestras, algo menos de un minuto) con medidor de nivel, deshacer y validación cruzada *leave-one-out*.
+   - **Repaso automático nota a nota.** Al acabar, `selfTestByNote` prueba cada muestra contra un modelo construido sin ella y devuelve, para cada una de las siete notas, cuántas acierta, cuántas duda, cuántas confunde y **con cuál se confunde**. Una nota está floja si falla alguna vez o duda más de una; entonces el micrófono sigue abierto y se piden **dos muestras más solo de esas notas**, hasta dos repasos. Es la diferencia entre «he grabado 28 veces» y «sé que distingo las siete».
+   - El resultado se muestra como siete fichas (Do ✓ · Fa ~ *la* · Sol ✕ *do*), de modo que el usuario ve qué nota conviene decir separando mejor la vocal en vez de un porcentaje global.
    - **Puerta de silencio:** tras grabar una nota, el detector se «desarma» y no vuelve a escuchar hasta detectar **260 ms de silencio** continuo (`waitSilence()`), y la pantalla muestra «Espera al silencio…». Así una sola palabra —o su eco— no rellena dos huecos seguidos. Medido con audio sintético: con huecos de 150 ms se captura 1 segmento en vez de 3; con huecos ≥ 300 ms se capturan todos.
 6. **Respuesta casi instantánea:** además del segmento final, el detector emite **hipótesis parciales** cada 30 ms a partir de 150 ms de voz; si una hipótesis parcial supera umbrales más estrictos (distancia ≤ 0,75·límite y margen +0,25) se responde **sin esperar al silencio** y se ignora el resto de la locución.
    - Medición con voz sintética: 28/28 aciertos; la mitad de las respuestas se deciden ~330 ms antes del final de la palabra.
@@ -400,8 +437,9 @@ Botón grueso (`.btn` con `box-shadow: 0 5px 0 var(--sombra)` y hundimiento al p
 ### 7.4 Respuesta a pantalla (responsive)
 
 - Base: móvil vertical, ancho máximo 520 px, márgenes laterales 16 px, área segura respetada.
+- **Móvil en horizontal: el modo de juego principal.** Es la orientación con la que la app está pensada para jugar, no un apaño: el pentagrama tiene sitio para crecer, el teclado de cuatro octavas entra entero y las **siete notas caben en una sola fila** de botones grandes, en vez de las dos filas encadenadas que hacen falta en vertical.
 - **iPad / tablets (≥700 px):** ancho máximo 860 px, tipografía 17 px, mapa centrado a 560 px, rejillas de estadísticas a 4 columnas y logros a 3, pentagramas y teclado más altos, contenido de lectura limitado a 680 px.
-- **Móvil en horizontal (`orientation:landscape` y alto ≤ 560 px):** modo compacto para que quepan pentagrama, mensaje y teclado sin scroll — barra superior a 38 px, se oculta el sobretítulo del nivel, insignia y barra de progreso más pequeñas, teclado a 104 px de alto, botones de nota a 42 px, tarjetas y botones con menos relleno. Verificado sin recorte ni scroll de página en 844×390 en los tres sitios donde aparece el teclado.
+- **Modo compacto (`orientation:landscape` y alto ≤ 600 px):** barra superior a 36 px, sin sobretítulo del nivel, insignia y barra de progreso más pequeñas, teclado a 98 px de alto, **botones de nota en una fila de siete** a 52 px, overlays con los botones en horizontal, tarjetas y botones con menos relleno, y respeto de `safe-area-inset` a izquierda, derecha y abajo (la muesca queda en el lateral al girar). Verificado sin recorte ni scroll de página en 844×390 en los tres sitios donde aparece el teclado.
 - Accesibilidad: foco visible dorado, `prefers-reduced-motion` desactiva todas las animaciones, roles y etiquetas ARIA en controles.
 
 ---
@@ -433,6 +471,8 @@ Botón grueso (`.btn` con `box-shadow: 0 5px 0 var(--sombra)` y hundimiento al p
 7. La app se usa con una sola mano en 390×844 y aprovecha el ancho en 820×1180 sin scroll horizontal.
 8. Sin conexión, la app abre desde la caché del service worker.
 9. Los **94 nodos** de las dos campañas abren su pantalla sin un solo error de JavaScript (test de navegador que los recorre todos).
+11. **Sonido:** el botón «Probar» de ajustes reproduce un Do y dice en qué estado está el contexto de audio; el audio se desbloquea al primer toque de la pantalla.
+12. **Dos barras:** en los niveles a compás se ven la línea verde de tempo, la roja de fallo y la franja de margen entre ellas, y la nota en juego cambia a ámbar al entrar en el margen.
 10. **Teclado y orientación:** en 390×844 los niveles de teclado piden girar el móvil; en 844×390 y en 820×1180 el teclado del rango más ancho (28 teclas) entra entero, sin scroll horizontal ni recorte por abajo, en los tres contextos que lo usan (nivel de lectura, recital y arcade).
 
 ---
@@ -481,6 +521,13 @@ Botón grueso (`.btn` con `box-shadow: 0 5px 0 var(--sombra)` y hundimiento al p
 - **Un concepto grande por capítulo:** el capítulo del cambio de manos añade una sola nota; el de las teclas negras, un solo sostenido. Antes, ambos mezclaban dos novedades y la canción no llegaba a fijar ninguna.
 - **Intervalos como atajo de lectura** (segunda = línea-espacio, tercera = línea-línea): es la técnica que separa leer nota a nota de leer de verdad, y no estaba explicada en ninguna parte.
 - **Curva de niveles 4 → 7:** cuatro niveles hasta la primera canción completa (enganche), siete en el último capítulo (variedad para quien ya aguanta). 58 niveles de solfeo y 36 de piano: suficiente para meses de práctica sin que la lista parezca una tarea.
+**Decisiones de la versión 15:**
+
+- **El sonido no fallaba: estaba silenciado.** En iOS el audio web obedece al interruptor lateral salvo que la página declare `navigator.audioSession.type = "playback"`, y el contexto no arranca fuera de un gesto. Se declara la sesión, se desbloquea con un búfer mudo en el primer toque y se añade una prueba de sonido en ajustes que dice qué está pasando en vez de dejar al usuario adivinando.
+- **Tocar con el piano de verdad.** Es lo que se está aprendiendo; responder en una tecla dibujada es un sucedáneo. Web MIDI lo permite en Chrome y Edge, y donde no existe se dice claramente en vez de esconder la opción.
+- **Dos barras en vez de una.** La queja («cuando dice ¡YA! ya llegas tarde») no era de tiempos: el margen existía pero era invisible. Dibujarlo como una franja entre la línea de tempo y la de fallo convierte una sensación de injusticia en información.
+- **El pentagrama se mide, no se supone.** Un `viewBox` fijo deja el dibujo pequeño en el centro de una caja apaisada. Calcularlo a partir del rango real de notas y de la forma del hueco dobla el tamaño del pentagrama sin cambiar una sola coordenada del dibujo.
+- **Margen de voz más bajo, entrenamiento más largo.** Ante «antes funcionaba mejor», la respuesta no es subir la exigencia sino bajarla y mejorar el modelo: más muestras y un repaso dirigido a las notas que el propio test cruzado señala como flojas.
 - **Pedir girar el móvil en vez de fingir que cabe:** un teclado de cuatro octavas con scroll horizontal obliga a buscar la tecla mientras corre el reloj, que es justo lo que el nivel no está midiendo. Como la web de iPhone no puede forzar la orientación, el aviso se pide, se intenta bloquear donde el navegador lo permite y se deja siempre salida.
 - **Longitud de las canciones fijada por el repertorio real, no por relleno:** cuando una melodía necesitaba repetir su primera frase para que la nota nueva sonara tres veces, se repite porque la pieza original lo hace (Brahms, Cascabeles), no se alarga artificialmente.
 
